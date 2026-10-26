@@ -131,11 +131,36 @@ export const OFFICES = {
 };
 
 export const MATERIALS = [
-  { img: 'wood-sheesham', name: 'Sheesham', type: 'Solid hardwood', text: 'Dense, strong and beautifully streaked. Our first choice for beds, dining tables and heirloom furniture.' },
-  { img: 'wood-diyar', name: 'Diyar (Deodar)', type: 'Solid wood', text: 'Natural oils resist termites and moisture — the classic choice for doors and windows.' },
-  { img: 'wood-walnut', name: 'Walnut', type: 'Premium hardwood', text: 'Deep chocolate tones for statement wardrobes, paneling and executive desks.' },
-  { img: 'wood-oak', name: 'Oak / Ash', type: 'Imported hardwood', text: 'Light, modern and very strong — perfect for contemporary kitchens and tables.' },
-  { img: 'wood-laminate', name: 'Laminate & Sheets', type: 'MDF · Chipboard · HPL', text: 'Budget-smart, easy to clean and available in hundreds of wood-grain and gloss finishes.' }
+  {
+    img: 'wood-sheesham', name: 'Sheesham', aka: 'Indian Rosewood', type: 'Premium local hardwood',
+    text: 'The premier hardwood of Pakistan — high strength, rich grain patterns and natural resistance to termites.',
+    best: 'Solid furniture, beds, dining sets, wardrobes'
+  },
+  {
+    img: 'wood-diyar', name: 'Diyar', aka: 'Deodar · Himalayan Cedar', type: 'Solid softwood',
+    text: 'Lightweight yet durable and naturally aromatic, with high resistance to rot and moisture.',
+    best: 'Doors, window frames, ceilings, structural woodwork'
+  },
+  {
+    img: 'wood-walnut', name: 'Walnut', aka: 'Akhrot', type: 'Luxury hardwood',
+    text: 'Sourced from the northern regions — a deep brown wood with an upscale, refined finish.',
+    best: 'Luxury furniture, fine carving, decorative pieces'
+  },
+  {
+    img: 'wood-kail', name: 'Kail / Pine', aka: 'Blue Pine', type: 'Budget-friendly softwood',
+    text: 'Economical, light and easy to shape — a smart choice for interiors, though less durable than hardwoods.',
+    best: 'Budget interior furniture, light panels, shelving'
+  },
+  {
+    img: 'wood-oak', name: 'Oak / Ash', aka: 'Imported hardwood', type: 'Imported hardwood',
+    text: 'Light, modern and very strong with an open grain — perfect for contemporary looks.',
+    best: 'Modern kitchens, tables, office furniture'
+  },
+  {
+    img: 'wood-laminate', name: 'Laminate & Sheets', aka: 'MDF · Chipboard · HPL', type: 'Engineered boards',
+    text: 'Budget-smart, easy to clean and available in hundreds of wood-grain, marble and gloss finishes.',
+    best: 'Wardrobes, kitchens, office storage'
+  }
 ];
 
 export const WHY = [

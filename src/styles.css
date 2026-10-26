@@ -597,7 +597,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   .craft__small { right: 0; }
   .woods { flex-direction: column; height: auto; }
   .wood { flex: none; height: 90px; transition: height .8s var(--ease); }
-  .wood.is-active { flex: none; height: 380px; }
+  .wood.is-active { flex: none; height: 460px; }
   .wood__label { writing-mode: horizontal-tb; transform: none; left: 24px; bottom: 50%; translate: 0 50%; }
   .wood__body { min-width: 0; }
   .steps ol { grid-template-columns: 1fr 1fr; row-gap: 50px; }

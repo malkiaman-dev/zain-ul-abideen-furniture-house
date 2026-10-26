@@ -152,7 +152,7 @@
   ]
  },
  "bedroom-2": {
-  "author": "Marcel Strau\u00df",
+  "author": "Marcel Strauß",
   "url": "https://unsplash.com/photos/modern-bedroom-with-wooden-accents-and-natural-light-CMHgRFDANH8",
   "size": [
    1600,
@@ -184,7 +184,7 @@
   ]
  },
  "craft-plane": {
-  "author": "Minh \u0110\u1ee9c",
+  "author": "Minh Đức",
   "url": "https://unsplash.com/photos/carpenter-working-on-wood-with-tools-in-workshop-lQIUbkn6jj4",
   "size": [
    2000,
@@ -231,14 +231,6 @@
    800
   ]
  },
- "wood-diyar": {
-  "author": "Andrey Haimin",
-  "url": "https://unsplash.com/photos/brown-wooden-plank-in-close-up-photography-q2Fyzn-KJOQ",
-  "size": [
-   1200,
-   800
-  ]
- },
  "wood-walnut": {
   "author": "Mockup Photos",
   "url": "https://unsplash.com/photos/brown-wooden-board-5nUNdLueQio",
@@ -263,7 +255,15 @@
    800
   ]
  },
- "wood-teak": {
+ "wood-kail": {
+  "author": "Andrey Haimin",
+  "url": "https://unsplash.com/photos/brown-wooden-plank-in-close-up-photography-q2Fyzn-KJOQ",
+  "size": [
+   1200,
+   800
+  ]
+ },
+ "wood-diyar": {
   "author": "Zoshua Colah",
   "url": "https://unsplash.com/photos/close-up-of-light-brown-wood-grain-texture-UhSCrH3p4Go",
   "size": [
