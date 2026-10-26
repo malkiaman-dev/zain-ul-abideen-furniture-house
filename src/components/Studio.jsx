@@ -25,8 +25,10 @@ const sheetFromHash = () => {
   const code = m && decodeURIComponent(m[1]);
   return code && BY_CODE[code] ? code : null;
 };
+// surfaces with `follows` take the sheet of another surface and are not picked on their own
+const editable = r => r.surfaces.filter(s => !s.follows);
 const initialChoices = () =>
-  Object.fromEntries(ROOMS.map(r => [r.id, Object.fromEntries(r.surfaces.map(s => [s.id, s.def]))]));
+  Object.fromEntries(ROOMS.map(r => [r.id, Object.fromEntries(editable(r).map(s => [s.id, s.def]))]));
 
 const Download = () => (
   <svg viewBox="0 0 24 24" className="ico" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14" /></svg>
@@ -63,7 +65,8 @@ export default function Studio() {
   const drawToken = useRef(0);
 
   const room = ROOMS[roomIdx];
-  const surface = room.surfaces[Math.min(surfaceIdx, room.surfaces.length - 1)];
+  const parts = editable(room);
+  const surface = parts[Math.min(surfaceIdx, parts.length - 1)];
   const roomChoices = choices[room.id];
 
   // apply a sheet passed in the link (#/studio?sheet=3008) to the current surface
@@ -128,7 +131,7 @@ export default function Studio() {
   const pick = code => setChoices(c => ({ ...c, [room.id]: { ...c[room.id], [surface.id]: code } }));
   const reset = () => setChoices(c => ({
     ...c,
-    [room.id]: Object.fromEntries(room.surfaces.map(s => [s.id, null]))
+    [room.id]: Object.fromEntries(parts.map(s => [s.id, null]))
   }));
   const goRoom = i => { setRoomIdx((i + ROOMS.length) % ROOMS.length); setSurfaceIdx(0); setCompare(false); };
   const preview = useRef(null);
@@ -140,7 +143,7 @@ export default function Studio() {
   const applyAll = () => {
     const code = roomChoices[surface.id];
     if (!code) return;
-    setChoices(c => ({ ...c, [room.id]: Object.fromEntries(room.surfaces.map(s => [s.id, code])) }));
+    setChoices(c => ({ ...c, [room.id]: Object.fromEntries(parts.map(s => [s.id, code])) }));
   };
 
   const results = useMemo(() => {
@@ -166,7 +169,7 @@ export default function Studio() {
   };
 
   const message = () => {
-    const lines = room.surfaces.map(s => {
+    const lines = parts.map(s => {
       const code = roomChoices[s.id];
       if (!code) return `${s.name}: original image, no sheet applied`;
       const sh = BY_CODE[code];
@@ -224,7 +227,7 @@ export default function Studio() {
           </div>
           <div className="studio__bar">
             <div className="studio__parts" role="tablist" aria-label="Part to change">
-              {room.surfaces.map((s, i) => (
+              {parts.map((s, i) => (
                 <button key={s.id} role="tab" aria-selected={s.id === surface.id} className={s.id === surface.id ? 'is-active' : ''} onClick={() => setSurfaceIdx(i)}>
                   <img src={roomChoices[s.id] ? swatchSrc(roomChoices[s.id]) : `/images/${room.img}-sm.webp`} alt="" />{s.name}
                 </button>
@@ -261,7 +264,7 @@ export default function Studio() {
               </div>
             </div>
             <div className="studio__cta">
-              {room.surfaces.length > 1 && <button className="btn btn--glass btn--sm" onClick={applyAll} disabled={!current}><span>Use on all parts</span></button>}
+              {parts.length > 1 && <button className="btn btn--glass btn--sm" onClick={applyAll} disabled={!current}><span>Use on all parts</span></button>}
               <a className="btn btn--wa btn--sm" href={waLink(message())} target="_blank" rel="noopener"><WhatsApp /><span>Get a quote for this</span></a>
             </div>
           </div>

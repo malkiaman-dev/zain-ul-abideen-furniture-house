@@ -207,10 +207,24 @@ export function prepareRoom(img, room, masks = {}) {
     dctx.putImageData(dImg, 0, 0);
     lctx.putImageData(lImg, 0, 0);
 
-    return { id: surface.id, parts, mask, dark, light };
+    return { id: surface.id, follows: surface.follows, solid: surface.solid, parts, mask, dark, light };
   });
 
   return { W, H, base, surfaces, work: canvas(W, H) };
+}
+
+const avgCache = new WeakMap();
+function averageColor(img) {
+  if (!avgCache.has(img)) {
+    const c = canvas(8, 8), x = c.getContext('2d');
+    x.drawImage(img, 0, 0, 8, 8);
+    const d = x.getImageData(0, 0, 8, 8).data;
+    let r = 0, g = 0, b = 0;
+    for (let i = 0; i < d.length; i += 4) { r += d[i]; g += d[i + 1]; b += d[i + 2]; }
+    const n = d.length / 4;
+    avgCache.set(img, `rgb(${Math.round(r / n)}, ${Math.round(g / n)}, ${Math.round(b / n)})`);
+  }
+  return avgCache.get(img);
 }
 
 /* Repaints the room with the chosen swatch image per surface id */
@@ -222,12 +236,16 @@ export function renderRoom(ctx, prepared, swatches) {
   const TILE = 360;
 
   surfaces.forEach(s => {
-    const swatch = swatches[s.id];
+    const swatch = swatches[s.follows || s.id];
     if (!swatch) return;
     wctx.globalCompositeOperation = 'source-over';
     wctx.clearRect(0, 0, W, H);
 
-    s.parts.forEach(part => {
+    if (s.solid) {
+      // plain fill in the sheet's average colour — no grain or pattern (e.g. a cabinet's side)
+      wctx.fillStyle = averageColor(swatch);
+      wctx.fillRect(0, 0, W, H);
+    } else s.parts.forEach(part => {
       const tex = tileTexture(swatch, part.ru, part.rv, TILE, part.panels);
       const sw = part.ru * TILE, sh = part.rv * TILE * BOARD;
       const N = part.map.isAffine ? 1 : 14;

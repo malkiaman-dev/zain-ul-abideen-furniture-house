@@ -2,6 +2,7 @@
    Points are 0–1 fractions of the photo: quads go top-left, top-right, bottom-right, bottom-left.
    "def" is the sheet code shown when the room first opens.
    "panels" lays the sheet out as that many full boards across with visible joints (wall cladding).
+   "follows" + "solid": a surface painted in the plain average colour of another surface's sheet.
    "mask" names a pre-cut PNG in public/studio/ so furniture in front of a wall is left untouched. */
 export const ROOMS = [
   {
@@ -55,10 +56,11 @@ export const ROOMS = [
     img: 'almari',
     surfaces: [
       {
-        id: 'front', name: 'Doors & drawers', def: '3005', mask: 'almari-front',
-        quad: [[0.349, 0.003], [0.766, 0.003], [0.757, 0.926], [0.35, 0.976]]
+        id: 'body', name: 'Almari', def: '3005', mask: 'almari',
+        quad: [[0.349, 0.024], [0.757, 0.024], [0.757, 0.926], [0.35, 0.976]]
       },
-      { id: 'side', name: 'Side & top', def: '3005', mask: 'almari-side', quad: [[0.239, 0.028], [0.349, 0.003], [0.35, 0.976], [0.241, 0.913]] }
+      // the side panel takes the same sheet as a plain colour, like a real edge-banded side
+      { id: 'side', follows: 'body', solid: true, mask: 'almari-side', quad: [[0.241, 0.056], [0.349, 0.024], [0.35, 0.976], [0.241, 0.913]] }
     ]
   },
   {
