@@ -130,7 +130,7 @@ export default function Studio() {
   const goRoom = i => { setRoomIdx((i + ROOMS.length) % ROOMS.length); setSurfaceIdx(0); setCompare(false); };
   const preview = useRef(null);
   const fullscreen = () => {
-    const el = preview.current;
+    const el = stage.current; // only the picture goes full screen, no toolbars
     if (document.fullscreenElement) document.exitFullscreen();
     else el.requestFullscreen?.() ?? el.webkitRequestFullscreen?.();
   };
@@ -226,7 +226,7 @@ export default function Studio() {
             </div>
           </div>
 
-          <div className={`studio__stage${compare ? ' is-compare' : ''}`} ref={stage} onPointerMove={onStageMove} onPointerDown={onStageMove} style={{ '--split': `${split}%`, aspectRatio: prepared.current ? `${prepared.current.W} / ${prepared.current.H}` : undefined }}>
+          <div className={`studio__stage${compare ? ' is-compare' : ''}`} ref={stage} onPointerMove={onStageMove} onPointerDown={onStageMove} onDoubleClick={() => document.fullscreenElement && document.exitFullscreen()} style={{ '--split': `${split}%`, aspectRatio: prepared.current ? `${prepared.current.W} / ${prepared.current.H}` : undefined }}>
             <canvas ref={canvasRef} aria-label={`${room.name} preview with ${current.code} ${current.name}`} role="img" />
             {compare && (
               <>

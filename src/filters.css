@@ -82,3 +82,11 @@
 .studio__search .ico { flex: none; width: 18px; height: 18px; }
 .studio__search input { padding: 0; line-height: normal; }
 .studio__label, .studio__mats-head, .studio__active { flex: none; }
+
+/* full screen = the picture alone, edge to edge (Esc or double-click to exit) */
+.studio__stage:fullscreen { width: 100vw; height: 100vh; max-height: none; aspect-ratio: auto !important; border-radius: 0; background: #000; display: grid; place-items: center; }
+.studio__stage:fullscreen canvas, .studio__stage:fullscreen .studio__before { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: contain; }
+.studio__stage:fullscreen .studio__arrow, .studio__stage:fullscreen .studio__tag, .studio__stage:fullscreen .studio__busy { display: none; }
+.studio__stage:-webkit-full-screen { width: 100vw; height: 100vh; border-radius: 0; background: #000; }
+.studio__stage:-webkit-full-screen canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.studio__stage:-webkit-full-screen .studio__arrow { display: none; }
