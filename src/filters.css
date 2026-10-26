@@ -76,3 +76,9 @@
 
 .studio__mats-head .studio__live, .studio__clear, .studio__filter { white-space: nowrap; }
 .studio__mats-head .studio__live { min-width: 0; overflow: hidden; text-overflow: ellipsis; letter-spacing: .12em; }
+
+/* search field: never squeezed by the flex panel, comfortable inner spacing */
+.studio__search { flex: none; height: 48px; padding: 0 20px 0 18px; gap: 12px; margin-bottom: 12px; box-sizing: border-box; }
+.studio__search .ico { flex: none; width: 18px; height: 18px; }
+.studio__search input { padding: 0; line-height: normal; }
+.studio__label, .studio__mats-head, .studio__active { flex: none; }
