@@ -1,3 +1,5 @@
+import IMAGE_SIZES from './imageSizes.json';
+
 /* =========================================================================
    Business details — edit these first
    ========================================================================= */
@@ -22,9 +24,16 @@ export const waLink = (text = 'Assalam o Alaikum! I would like a quote for custo
   `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(text)}`;
 
 /* Responsive image helper: every photo exists as name.webp (full) and name-sm.webp (half width) */
+/* Intrinsic sizes (width, height) of every photo — lets lazy images reserve their space so the page never jumps */
+export const imgSize = name => {
+  const [width, height] = IMAGE_SIZES[name] || [1600, 1067];
+  return { width, height };
+};
+
 export const photo = (name, full = 1600) => ({
+  ...imgSize(name),
   src: `/images/${name}.webp`,
-  srcSet: `/images/${name}-sm.webp ${full / 2}w, /images/${name}.webp ${full}w`
+  srcSet: `/images/${name}-sm.webp ${Math.round(full / 2)}w, /images/${name}.webp ${Math.round(full)}w`
 });
 
 /* =========================================================================

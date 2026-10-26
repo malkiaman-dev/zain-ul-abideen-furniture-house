@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import CATALOG from '../sheets.json';
 import { ROOMS } from '../studioRooms.js';
-import { waLink } from '../data.js';
+import { waLink, imgSize } from '../data.js';
 import { loadImage, prepareRoom, renderRoom } from '../lib/roomRender.js';
 import { finePointer } from '../lib/motion.js';
 import { WhatsApp } from './Icons.jsx';
@@ -194,7 +194,7 @@ export default function Studio() {
           <div className="studio__room-list">
             {ROOMS.map((r, i) => (
               <button key={r.id} className={`room${i === roomIdx ? ' is-active' : ''}`} onClick={() => goRoom(i)} aria-pressed={i === roomIdx}>
-                <img src={`/images/${r.img}-sm.webp`} alt="" loading="lazy" />
+                <img src={`/images/${r.img}-sm.webp`} alt="" loading="lazy" {...imgSize(r.img)} />
                 <span><i>0{i + 1}</i>{r.name}</span>
               </button>
             ))}
@@ -288,7 +288,7 @@ export default function Studio() {
           <div className="studio__swatches" data-lenis-prevent>
             {results.slice(0, shown).map(s => (
               <button key={s.code} className={`mat${s.code === current.code ? ' is-active' : ''}`} onClick={() => pick(s.code)} title={`${s.code} — ${s.name}`} aria-pressed={s.code === current.code}>
-                <img src={`/sheets/${s.img}.webp`} alt={`${s.code} ${s.name}`} loading="lazy" decoding="async" />
+                <img src={`/sheets/${s.img}.webp`} alt={`${s.code} ${s.name}`} loading="lazy" decoding="async" width="420" height="420" />
                 <span>{s.code}</span>
               </button>
             ))}

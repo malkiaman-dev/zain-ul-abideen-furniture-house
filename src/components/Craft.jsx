@@ -7,10 +7,10 @@ export default function Craft() {
     <section className="craft section" id="why">
       <div className="craft__media">
         <figure className="craft__big" data-reveal>
-          <img src={big.src} srcSet={big.srcSet} sizes="(max-width: 900px) 100vw, 55vw" alt="Karigar planing wood by hand in the workshop" loading="lazy" data-parallax="8" />
+          <img src={big.src} srcSet={big.srcSet} width={big.width} height={big.height} sizes="(max-width: 900px) 100vw, 55vw" alt="Karigar planing wood by hand in the workshop" loading="lazy" data-parallax="8" />
         </figure>
         <figure className="craft__small" data-reveal="2">
-          <img src={small.src} srcSet={small.srcSet} sizes="(max-width: 900px) 50vw, 22vw" alt="Marking exact measurements on wood" loading="lazy" />
+          <img src={small.src} srcSet={small.srcSet} width={small.width} height={small.height} sizes="(max-width: 900px) 50vw, 22vw" alt="Marking exact measurements on wood" loading="lazy" />
         </figure>
         <div className="craft__badge" data-reveal="3">
           <img src="/brand/logo-mark.webp" alt="" />

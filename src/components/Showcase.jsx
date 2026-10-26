@@ -34,7 +34,7 @@ export default function Showcase({ data }) {
               data-cursor="Quote" data-reveal={i % 3}
             >
               <div className="svc__img">
-                <img src={p.src} srcSet={p.srcSet} sizes="(max-width: 900px) 100vw, 40vw" alt={s.title} loading="lazy" decoding="async" />
+                <img src={p.src} srcSet={p.srcSet} width={p.width} height={p.height} sizes="(max-width: 900px) 100vw, 40vw" alt={s.title} loading="lazy" decoding="async" />
               </div>
               <div className="svc__shine" aria-hidden="true" />
               <div className="svc__body">

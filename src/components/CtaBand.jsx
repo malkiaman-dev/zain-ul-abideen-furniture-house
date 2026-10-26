@@ -6,7 +6,7 @@ export default function CtaBand() {
   return (
     <section className="ctaband" aria-label="Contact us">
       <div className="ctaband__img">
-        <img src={p.src} srcSet={p.srcSet} sizes="100vw" alt="Karigar cutting wood in the workshop" loading="lazy" data-parallax="10" />
+        <img src={p.src} srcSet={p.srcSet} width={p.width} height={p.height} sizes="100vw" alt="Karigar cutting wood in the workshop" loading="lazy" data-parallax="10" />
       </div>
       <div className="ctaband__inner">
         <h2 className="h2" data-reveal>Your dream wardrobe, kitchen<br />or door is <em className="gold">one message away.</em></h2>

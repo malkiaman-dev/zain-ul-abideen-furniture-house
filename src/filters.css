@@ -1,7 +1,8 @@
 /* ==========================================================================
    Studio material panel: header, active filters, hidden scrollbar, filter sheet
    ========================================================================== */
-.studio__mats { position: relative; overflow: hidden; }
+.studio__mats { position: sticky; overflow: hidden; } /* sticky (not relative): keeps it aligned and still anchors the filter sheet */
+@media (max-width: 860px) { .studio__mats { position: relative; top: 0; } }
 .studio__mats-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid var(--line); }
 .studio__mats-head .studio__live { font-size: 12.5px; letter-spacing: .18em; }
 .studio__mats-tools { display: flex; gap: 6px; }

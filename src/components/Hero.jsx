@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { HERO_SLIDES, photo, waLink } from '../data.js';
+import { HERO_SLIDES, photo, imgSize, waLink } from '../data.js';
 import { gsap, lerp, reducedMotion, finePointer } from '../lib/motion.js';
 import { Arrow, Check } from './Icons.jsx';
 
@@ -145,7 +145,7 @@ export default function Hero({ ready }) {
           <div className="hero__thumbs">
             {HERO_SLIDES.map((s, i) => (
               <button key={s.img} className={`hero__thumb${i === index ? ' is-active' : ''}`} onClick={() => go(i)} aria-label={`Show ${s.title}`} data-cursor="View">
-                <img src={`/images/${s.img}-sm.webp`} alt="" loading="lazy" />
+                <img src={`/images/${s.img}-sm.webp`} alt="" loading="lazy" {...imgSize(s.img)} />
                 <span className="hero__bar"><i key={`${index}-${ready}`} style={{ animationDuration: `${SLIDE_MS}ms`, animationPlayState: ready ? 'running' : 'paused' }} /></span>
               </button>
             ))}

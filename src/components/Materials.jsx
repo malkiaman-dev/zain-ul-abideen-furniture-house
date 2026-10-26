@@ -28,7 +28,7 @@ export default function Materials() {
               onClick={() => setActive(i)}
               aria-expanded={active === i}
             >
-              <img src={p.src} srcSet={p.srcSet} sizes="(max-width: 900px) 100vw, 50vw" alt={`${m.name} wood texture`} loading="lazy" />
+              <img src={p.src} srcSet={p.srcSet} width={p.width} height={p.height} sizes="(max-width: 900px) 100vw, 50vw" alt={`${m.name} wood texture`} loading="lazy" />
               <span className="wood__label">{m.name}</span>
               <span className="wood__body">
                 <small>{m.type}</small>
@@ -46,7 +46,7 @@ export default function Materials() {
 
       <a href="#/sheets" className="sheets-teaser" data-reveal data-cursor="Browse">
         <span className="sheets-teaser__swatches" aria-hidden="true">
-          {['3008', '3010', '2033', '3007', '2032'].map(c => <img key={c} src={`/sheets/${c}.webp`} alt="" loading="lazy" />)}
+          {['3008', '3010', '2033', '3007', '2032'].map(c => <img key={c} src={`/sheets/${c}.webp`} alt="" loading="lazy" width="420" height="420" />)}
         </span>
         <span className="sheets-teaser__text">
           <b>Prefer sheets? Browse 400+ chipboard, MDF &amp; UV designs</b>

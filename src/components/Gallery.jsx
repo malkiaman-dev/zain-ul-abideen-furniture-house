@@ -57,7 +57,7 @@ export default function Gallery() {
           const p = photo(g.img, g.full || 1600);
           return (
             <button className="shot" key={g.img} onClick={() => setOpen(i)} data-cursor="Open">
-              <img src={p.src} srcSet={p.srcSet} sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw" alt={g.title} loading="lazy" decoding="async" />
+              <img src={p.src} srcSet={p.srcSet} width={p.width} height={p.height} sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw" alt={g.title} loading="lazy" decoding="async" />
               <span className="shot__info"><b>{g.title}</b><i>{g.cat}</i></span>
             </button>
           );
