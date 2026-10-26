@@ -111,3 +111,40 @@
 .menu nav a::after { content: "\2192"; font-family: var(--f-body); font-size: 18px; color: var(--gold); opacity: .7; }
 .menu nav a:hover::after { opacity: 1; }
 .menu__foot { font-size: 15px; }
+
+/* ---------- Studio preview: mobile layout ---------- */
+/* width drives the height via aspect-ratio; a min-height here used to force the box wider than the panel */
+.studio__stage { width: 100%; max-width: 100%; }
+.studio__stage[style*="aspect-ratio"] { min-height: 0; }
+
+@media (max-width: 600px) {
+  .studio__preview { padding: 10px; }
+  /* toolbar: one tidy row — room name (truncated), code, download, reset, full screen */
+  .studio__top { flex-wrap: nowrap; gap: 6px; padding: 0 0 10px; margin-bottom: 10px; }
+  .studio__chips-row { flex-wrap: nowrap; width: 100%; gap: 6px; min-width: 0; }
+  .studio__chip { padding: 0 10px; height: 34px; display: inline-flex; align-items: center; font-size: 12.5px; white-space: nowrap; }
+  .studio__chips-row .studio__chip:first-child { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; display: block; line-height: 32px; }
+  .studio__dl { height: 34px; padding: 0 11px; font-size: 12.5px; gap: 5px; flex: none; }
+  .studio__tool, .studio__tool--sq { width: 34px; height: 34px; padding: 0; justify-content: center; flex: none; }
+  .studio__tool span { display: none; }
+
+  /* part chips scroll sideways; compare sits on the same line as an icon button */
+  .studio__bar { flex-wrap: nowrap; gap: 8px; margin-bottom: 10px; }
+  .studio__parts { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; min-width: 0; flex: 1; }
+  .studio__parts::-webkit-scrollbar { display: none; }
+  .studio__parts button { flex: none; padding: 5px 12px 5px 5px; font-size: 13px; }
+  .studio__parts button img { width: 22px; height: 22px; }
+  .studio__actions { flex: none; }
+  .studio__icon { width: 38px; height: 38px; padding: 0; justify-content: center; }
+  .studio__icon span { display: none; }
+
+  .studio__stage { border-radius: 12px; }
+  .studio__arrow { width: 30px; height: 44px; margin-top: -22px; font-size: 22px; border-radius: 8px; opacity: .9; }
+  .studio__arrow--l { left: 6px; } .studio__arrow--r { right: 6px; }
+
+  .studio__summary { margin-top: 12px; gap: 12px; }
+  .studio__current img { width: 46px; height: 46px; }
+  .studio__current b { font-size: 17px; }
+  .studio__cta { flex-direction: column; gap: 8px; }
+  .studio__cta .btn { width: 100%; height: 48px; }
+}
