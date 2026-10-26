@@ -5,12 +5,18 @@ import { waLink } from '../data.js';
 import { loadImage, prepareRoom, renderRoom } from '../lib/roomRender.js';
 import { finePointer } from '../lib/motion.js';
 import { WhatsApp } from './Icons.jsx';
+import FilterSheet, { FilterIcon, PALETTE } from './FilterSheet.jsx';
 
 // door-skin images are posters, not flat boards, so they can't be applied to a surface
 const SHEETS = CATALOG.filter(s => s.series !== 'Door Skin');
 const BY_CODE = Object.fromEntries(SHEETS.map(s => [s.code, s]));
-const SERIES = ['All', ...new Set(SHEETS.map(s => s.series))];
-const FINISHES = ['All', 'Wood Grain', 'Solid', 'Marble', 'Brushed Wood', 'Fabric', 'Stone'];
+const byCount = list => Object.entries(list.reduce((m, k) => ((m[k] = (m[k] || 0) + 1), m), {})).sort((a, b) => b[1] - a[1]).map(([k]) => k);
+const OPTIONS = {
+  series: byCount(SHEETS.map(s => s.series)),
+  finish: byCount(SHEETS.map(s => s.finish)),
+  color: Object.keys(PALETTE).filter(c => SHEETS.some(s => s.colors.includes(c)))
+};
+const NO_FILTERS = { series: 'All', finish: 'All', color: 'All' };
 const PAGE = 60;
 
 const swatchSrc = code => `/sheets/${BY_CODE[code].img}.webp`;
@@ -46,8 +52,8 @@ export default function Studio() {
   const [compare, setCompare] = useState(false);
   const [split, setSplit] = useState(50);
   const [query, setQuery] = useState('');
-  const [series, setSeries] = useState('All');
-  const [finish, setFinish] = useState('All');
+  const [filters, setFilters] = useState(NO_FILTERS);
+  const [filterOpen, setFilterOpen] = useState(false);
   const [shown, setShown] = useState(PAGE);
 
   const canvasRef = useRef(null);
@@ -133,11 +139,14 @@ export default function Studio() {
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
     return SHEETS.filter(s =>
-      (series === 'All' || s.series === series) &&
-      (finish === 'All' || s.finish === finish) &&
+      (filters.series === 'All' || s.series === filters.series) &&
+      (filters.finish === 'All' || s.finish === filters.finish) &&
+      (filters.color === 'All' || s.colors.includes(filters.color)) &&
       (!q || `${s.code} ${s.name} ${s.finish}`.toLowerCase().includes(q)));
-  }, [query, series, finish]);
-  useEffect(() => setShown(PAGE), [query, series, finish]);
+  }, [query, filters]);
+  useEffect(() => setShown(PAGE), [query, filters]);
+  const activeFilters = Object.values(filters).filter(v => v !== 'All').length;
+  const clearAll = () => { setFilters(NO_FILTERS); setQuery(''); };
 
   const download = () => {
     canvasRef.current.toBlob(blob => {
@@ -251,18 +260,32 @@ export default function Studio() {
 
         {/* Materials */}
         <aside className="studio__panel studio__mats" aria-label="Sheets">
-          <p className="studio__label">02 · Pick a sheet for <b>{surface.name}</b></p>
+          <div className="studio__mats-head">
+            <p className="studio__live">
+              <svg viewBox="0 0 24 24" className="ico" aria-hidden="true"><path d="M4 20V8l8-4 8 4v12M9 20v-6h6v6" /></svg>Select Material
+            </p>
+            <div className="studio__mats-tools">
+              {(activeFilters > 0 || query) && <button className="studio__clear" onClick={clearAll}>× Clear</button>}
+              <button className={`studio__filter${activeFilters ? ' is-on' : ''}`} onClick={() => setFilterOpen(true)}>
+                <FilterIcon />Filter{activeFilters > 0 && <b>{activeFilters}</b>}
+              </button>
+            </div>
+          </div>
+          <p className="studio__label">For <b>{surface.name}</b> · {results.length} panels</p>
           <label className="sheets__search studio__search">
             <svg viewBox="0 0 24 24" className="ico" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
             <input type="search" value={query} onChange={e => setQuery(e.target.value)} placeholder="Code or colour" aria-label="Search sheets" />
           </label>
-          <div className="studio__chips">
-            {SERIES.map(s => <button key={s} className={series === s ? 'is-active' : ''} onClick={() => setSeries(s)}>{s === 'All' ? 'All series' : s}</button>)}
-          </div>
-          <div className="studio__chips studio__chips--sm">
-            {FINISHES.map(f => <button key={f} className={finish === f ? 'is-active' : ''} onClick={() => setFinish(f)}>{f === 'All' ? 'All finishes' : f}</button>)}
-          </div>
-          <div className="studio__swatches">
+          {activeFilters > 0 && (
+            <div className="studio__active">
+              {Object.entries(filters).filter(([, v]) => v !== 'All').map(([k, v]) => (
+                <button key={k} onClick={() => setFilters(f => ({ ...f, [k]: 'All' }))} aria-label={`Remove ${v} filter`}>
+                  {k === 'color' && <i style={{ background: PALETTE[v] }} />}{v} ×
+                </button>
+              ))}
+            </div>
+          )}
+          <div className="studio__swatches" data-lenis-prevent>
             {results.slice(0, shown).map(s => (
               <button key={s.code} className={`mat${s.code === current.code ? ' is-active' : ''}`} onClick={() => pick(s.code)} title={`${s.code} — ${s.name}`} aria-pressed={s.code === current.code}>
                 <img src={`/sheets/${s.img}.webp`} alt={`${s.code} ${s.name}`} loading="lazy" decoding="async" />
@@ -270,10 +293,11 @@ export default function Studio() {
               </button>
             ))}
           </div>
-          {results.length === 0 && <p className="studio__empty">No sheet matches “{query}”.</p>}
+          {results.length === 0 && <p className="studio__empty">No panel matches these filters. <button onClick={clearAll}>Clear all</button></p>}
           {shown < results.length && (
             <button className="studio__more" onClick={() => setShown(n => n + PAGE)}>Show more ({results.length - shown})</button>
           )}
+          <FilterSheet open={filterOpen} onClose={() => setFilterOpen(false)} filters={filters} setFilters={setFilters} options={OPTIONS} count={results.length} />
         </aside>
       </div>
 

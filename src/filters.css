@@ -1,0 +1,78 @@
+/* ==========================================================================
+   Studio material panel: header, active filters, hidden scrollbar, filter sheet
+   ========================================================================== */
+.studio__mats { position: relative; overflow: hidden; }
+.studio__mats-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid var(--line); }
+.studio__mats-head .studio__live { font-size: 12.5px; letter-spacing: .18em; }
+.studio__mats-tools { display: flex; gap: 6px; }
+.studio__clear { height: 34px; padding: 0 12px; border-radius: 8px; font-size: 13px; color: var(--muted); transition: color .3s, background-color .3s; }
+.studio__clear:hover { color: var(--text); background: rgba(255, 255, 255, .05); }
+.studio__filter { display: inline-flex; align-items: center; gap: 7px; height: 34px; padding: 0 13px; border-radius: 8px; font-size: 13px; color: var(--text); border: 1px solid var(--line-2); background: rgba(255, 255, 255, .03); transition: border-color .3s, background-color .3s; }
+.studio__filter .ico { width: 16px; height: 16px; color: var(--gold); }
+.studio__filter:hover, .studio__filter.is-on { border-color: var(--gold); background: rgba(214, 170, 88, .1); }
+.studio__filter b { display: grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--gold); color: #1d140a; font-size: 11px; }
+.studio__active { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.studio__active button { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; font-size: 12.5px; color: var(--gold-hi); background: rgba(214, 170, 88, .12); border: 1px solid rgba(214, 170, 88, .35); }
+.studio__active i { width: 12px; height: 12px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .3); }
+.studio__empty button { color: var(--gold); text-decoration: underline; }
+
+/* no visible scrollbar on the material list — it still scrolls with wheel, touch and keyboard */
+.studio__swatches {
+  scrollbar-width: none; -ms-overflow-style: none; padding-right: 0;
+  -webkit-mask: linear-gradient(180deg, #000 calc(100% - 28px), transparent);
+  mask: linear-gradient(180deg, #000 calc(100% - 28px), transparent);
+}
+.studio__swatches::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+/* ---------- Filter bottom sheet ---------- */
+.fs { position: absolute; inset: 0; z-index: 30; pointer-events: none; }
+.fs.is-open { pointer-events: auto; }
+.fs__scrim { position: absolute; inset: 0; background: rgba(8, 6, 4, .55); backdrop-filter: blur(3px); opacity: 0; transition: opacity .4s; }
+.fs.is-open .fs__scrim { opacity: 1; }
+.fs__sheet {
+  position: absolute; left: 0; right: 0; bottom: 0; max-height: 88%;
+  display: flex; flex-direction: column;
+  border-radius: 22px 22px 0 0; background: #1f1812; border-top: 1px solid var(--line-2);
+  box-shadow: 0 -20px 50px rgba(0, 0, 0, .55);
+  transform: translateY(105%); transition: transform .55s var(--ease);
+}
+.fs.is-open .fs__sheet { transform: none; }
+.fs__grip { align-self: center; width: 44px; height: 4px; margin: 10px 0 4px; border-radius: 4px; background: var(--line-2); }
+.fs__head { display: flex; align-items: center; justify-content: space-between; padding: 8px 18px 14px; border-bottom: 1px solid var(--line); }
+.fs__head h3 { display: flex; align-items: center; gap: 10px; margin: 0; font-family: var(--f-body); font-size: 17px; font-weight: 600; }
+.fs__head h3 .ico { color: var(--gold); }
+.fs__close { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, .06); color: var(--muted); transition: background-color .3s, color .3s; }
+.fs__close:hover { background: rgba(255, 255, 255, .12); color: var(--text); }
+.fs__close .ico { width: 16px; height: 16px; }
+.fs__body { flex: 1; overflow-y: auto; padding: 4px 18px 10px; scrollbar-width: none; overscroll-behavior: contain; }
+.fs__body::-webkit-scrollbar { display: none; }
+.fs__group h4 { display: flex; align-items: center; gap: 12px; margin: 18px 0 12px; font-size: 11px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--dim); }
+.fs__group h4::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.fs__opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.fs__opts button {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 15px; border-radius: 10px; font-size: 13.5px; color: var(--muted);
+  background: rgba(255, 255, 255, .04); border: 1px solid var(--line);
+  transition: color .25s, background-color .25s, border-color .25s, transform .25s;
+}
+.fs__opts button:hover { color: var(--text); border-color: var(--line-2); transform: translateY(-1px); }
+.fs__opts button.is-active { color: #1d140a; font-weight: 700; background: var(--gold-grad); background-size: 200% 100%; border-color: transparent; box-shadow: 0 0 0 3px rgba(214, 170, 88, .2); }
+.fs__opts i { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .28); flex: none; }
+.fs__apply {
+  margin: 10px 16px 16px; height: 52px; border-radius: 12px; flex: none;
+  font-size: 15px; font-weight: 700; color: #1d140a;
+  background: var(--gold-grad); background-size: 220% 100%;
+  box-shadow: 0 10px 30px -10px rgba(214, 170, 88, .6);
+  transition: transform .3s;
+}
+.fs__apply:hover { transform: translateY(-1px); }
+.fs__apply:disabled { opacity: .5; }
+
+@media (max-width: 860px) {
+  /* on phones the sheet comes up from the bottom of the screen like a native picker */
+  .fs { position: fixed; z-index: 260; }
+  .fs__sheet { max-height: 82vh; }
+}
+
+.studio__mats-head .studio__live, .studio__clear, .studio__filter { white-space: nowrap; }
+.studio__mats-head .studio__live { min-width: 0; overflow: hidden; text-overflow: ellipsis; letter-spacing: .12em; }
