@@ -147,7 +147,7 @@ export default function VideoCarousel() {
         <div className="reelbox" role="dialog" aria-modal="true" aria-label={reel.title} onClick={e => e.target === e.currentTarget && setOpen(-1)}>
           <button className="lightbox__close" onClick={() => setOpen(-1)} aria-label="Close"><Close /></button>
           <figure className="reelbox__fig" key={reel.name}>
-            <video src={`/videos/${reel.name}.mp4`} poster={`/videos/${reel.name}.webp`} autoPlay muted loop playsInline controls width="540" height="960" />
+            <video src={`/videos/${reel.name}.mp4`} poster={`/videos/${reel.name}.webp`} autoPlay loop playsInline controls width="540" height="960" />
             <figcaption>
               <div><small>{reel.tag}</small><b>{reel.title}</b></div>
               <a className="btn btn--wa btn--sm" href={waLink('Assalam o Alaikum! I saw your workshop video and would like a quote.')} target="_blank" rel="noopener">

@@ -31,11 +31,15 @@ export const imgSize = name => {
   return { width, height };
 };
 
-export const photo = (name, full = 1600) => ({
+export const photo = (name, fallback = 1600) => {
+  // srcset widths come from the real file size, so swapping a photo never needs a code change
+  const full = IMAGE_SIZES[name]?.[0] || fallback;
+  return {
   ...imgSize(name),
   src: `/images/${name}.webp`,
   srcSet: `/images/${name}-sm.webp ${Math.round(full / 2)}w, /images/${name}.webp ${Math.round(full)}w`
-});
+  };
+};
 
 /* =========================================================================
    Content
@@ -60,40 +64,35 @@ export const SERVICES = [
 export const GALLERY_FILTERS = ['All', 'Wardrobes', 'Kitchens', 'Office', 'Study Tables', 'Schools', 'Doors & Windows', 'Tables', 'Rooms'];
 
 export const GALLERY = [
-  { img: 'work-kitchen-gloss', cat: 'Kitchens', title: 'High-gloss kitchen with display unit', full: 830 },
-  { img: 'work-wardrobe-mirror', cat: 'Wardrobes', title: 'Wardrobe with lofts & mirror', full: 720 },
-  { img: 'work-kitchen-modern', cat: 'Kitchens', title: 'Modern kitchen with island', full: 1260 },
-  { img: 'work-wardrobe-laminate', cat: 'Wardrobes', title: 'Laminated almari, wood frame', full: 576 },
-  { img: 'work-kitchen-red', cat: 'Kitchens', title: 'Two-tone kitchen with tall unit', full: 774 },
-  { img: 'work-wardrobe-dressing', cat: 'Wardrobes', title: 'Wardrobe with dressing & TV unit', full: 720 },
-  { img: 'work-wardrobe-walnut', cat: 'Wardrobes', title: 'Walnut wardrobe with side shelves', full: 992 },
-  { img: 'work-kitchen-cream', cat: 'Kitchens', title: 'Cream high-gloss kitchen', full: 518 },
-  { img: 'office-executive', cat: 'Office', title: 'Executive L-shaped table', full: 1024 },
-  { img: 'office-workstations', cat: 'Office', title: 'Team workstations with partitions', full: 1356 },
-  { img: 'office-cubicle', cat: 'Office', title: 'Corner cubicle with storage', full: 1108 },
-  { img: 'office-round-station', cat: 'Office', title: '4-seater round workstation', full: 880 },
-  { img: 'office-desk-glass', cat: 'Office', title: 'Walnut desk with glass top', full: 675 },
-  { img: 'office-desk-dark', cat: 'Office', title: 'Two-tone manager desk', full: 675 },
-  { img: 'study-desk-wood', cat: 'Study Tables', title: 'Solid wood study desk & chair', full: 1156 },
-  { img: 'study-corner', cat: 'Study Tables', title: 'Study corner with wall cabinets', full: 958 },
-  { img: 'study-computer-unit', cat: 'Study Tables', title: 'Computer table with cupboard', full: 894 },
-  { img: 'study-desk-hutch', cat: 'Study Tables', title: 'Study desk with shelf hutch', full: 1108 },
-  { img: 'study-desk-modern', cat: 'Study Tables', title: 'Compact modern study table', full: 894 },
-  { img: 'school-classroom', cat: 'Schools', title: 'Classroom desks & chairs', full: 1448 },
-  { img: 'podium-wood', cat: 'Schools', title: 'Wood & acrylic rostrum', full: 732 },
-  { img: 'school-benches', cat: 'Schools', title: 'Colourful student benches', full: 894 },
-  { img: 'podium-white', cat: 'Schools', title: 'White lacquer podium', full: 800 },
-  { img: 'school-group-tables', cat: 'Schools', title: 'Group activity tables', full: 1324 },
-  { img: 'podium-mic', cat: 'Schools', title: 'Rostrum with mic stand', full: 600 },
-  { img: 'door-carved', cat: 'Doors & Windows', title: 'Panelled double door' },
-  { img: 'dining-2', cat: 'Tables', title: 'Live-edge dining table' },
-  { img: 'bedroom-2', cat: 'Rooms', title: 'Bedroom with wood paneling' },
-  { img: 'door-room', cat: 'Doors & Windows', title: 'Solid wood entrance door' },
-  { img: 'table-joinery', cat: 'Tables', title: 'Hand-finished joinery' },
-  { img: 'hero-living', cat: 'Rooms', title: 'TV wall & feature door', full: 2400 },
-  { img: 'window-shutter', cat: 'Doors & Windows', title: 'Window with shutters' },
-  { img: 'office-2', cat: 'Rooms', title: 'Office with wooden ceiling' },
-  { img: 'table-dark', cat: 'Tables', title: 'Dark-polish dining table' }
+  { img: 'work-wardrobe-walnut', cat: 'Wardrobes', title: 'Full-wall wooden wardrobe with mirror' },
+  { img: 'work-kitchen-modern', cat: 'Kitchens', title: 'Walnut & charcoal island kitchen' },
+  { img: 'office-executive', cat: 'Office', title: 'Executive table with side return' },
+  { img: 'work-wardrobe-laminate', cat: 'Wardrobes', title: 'Stone-finish almari' },
+  { img: 'work-kitchen-red', cat: 'Kitchens', title: 'Red & grey modular kitchen' },
+  { img: 'study-corner', cat: 'Study Tables', title: 'Study corner with wall shelves' },
+  { img: 'work-wardrobe-mirror', cat: 'Wardrobes', title: 'Built-in wardrobe with TV unit' },
+  { img: 'office-workstations', cat: 'Office', title: 'Team workstations' },
+  { img: 'work-kitchen-gloss', cat: 'Kitchens', title: 'High-gloss kitchen with display unit' },
+  { img: 'school-classroom', cat: 'Schools', title: 'Colourful classroom desks & benches' },
+  { img: 'work-wardrobe-dressing', cat: 'Wardrobes', title: 'Dark wood wardrobe with side shelves' },
+  { img: 'office-cubicle', cat: 'Office', title: 'Reception & corner cubicle' },
+  { img: 'study-desk-wood', cat: 'Study Tables', title: 'Oak writing desk with shelves' },
+  { img: 'work-kitchen-cream', cat: 'Kitchens', title: 'Beige modular kitchen' },
+  { img: 'office-round-station', cat: 'Office', title: '4-seater workstation with partitions' },
+  { img: 'school-kids-table', cat: 'Schools', title: 'Group tables for kids' },
+  { img: 'door-main', cat: 'Doors & Windows', title: 'Solid wood entrance door' },
+  { img: 'dining', cat: 'Tables', title: 'Live-edge dining table with bench' },
+  { img: 'office-desk-dark', cat: 'Office', title: 'Wood-panelled office' },
+  { img: 'podium-mic', cat: 'Schools', title: 'Rostrum with mic stand' },
+  { img: 'study-desk-modern', cat: 'Study Tables', title: 'Compact modern study desk' },
+  { img: 'desi-carved-door', cat: 'Doors & Windows', title: 'Carved double door' },
+  { img: 'dining-2', cat: 'Tables', title: 'Solid wood dining table' },
+  { img: 'podium-wood', cat: 'Schools', title: 'Wood & acrylic lectern' },
+  { img: 'window-shutter', cat: 'Doors & Windows', title: 'Window with wooden shutters' },
+  { img: 'table-joinery', cat: 'Tables', title: 'Hand-finished table joinery' },
+  { img: 'podium-white', cat: 'Schools', title: 'White lacquer lectern' },
+  { img: 'hero-living', cat: 'Rooms', title: 'TV wall & feature door' },
+  { img: 'bedroom-2', cat: 'Rooms', title: 'Bedroom with wood paneling' }
 ];
 
 export const SCHOOLS = {
@@ -104,11 +103,11 @@ export const SCHOOLS = {
   intro: 'Desks, benches, kids tables and rostrums — made in bulk, to your sizes and colours, strong enough for years of daily use.',
   points: ['Bulk orders', 'Custom sizes & colours', 'Steel + wood frames'],
   items: [
-    { area: 'a', img: 'school-classroom', full: 1448, title: 'Classroom Desks & Chairs', line: 'Single and double desks with sturdy steel or wooden frames.' },
-    { area: 'b', img: 'school-kids-table', full: 894, title: 'Montessori & Kids Tables', line: 'Rounded, child-safe tables in bright colours.' },
-    { area: 'c', img: 'school-group-tables', full: 1324, title: 'Group Activity Tables', line: 'Modular shapes that join together for group work.' },
-    { area: 'd', img: 'school-benches', full: 894, title: 'Student Benches', line: 'Two and three-seater benches built for daily use.' },
-    { area: 'e', img: 'podium-wood', full: 732, contain: true, title: 'Rostrums & Podiums', line: 'For assembly halls, auditoriums, offices and events.' }
+    { area: 'a', img: 'school-classroom', title: 'Classroom Desks & Benches', line: 'Single and double desks with sturdy steel frames, in any colour.' },
+    { area: 'b', img: 'school-kids-table', title: 'Montessori & Kids Tables', line: 'Rounded, child-safe tables in bright colours.' },
+    { area: 'c', img: 'podium-mic', contain: true, title: 'Rostrums & Podiums', line: 'For assembly halls, auditoriums and events.' },
+    { area: 'd', img: 'podium-wood', contain: true, title: 'Acrylic Lecterns', line: 'Wood and frosted acrylic for a modern stage.' },
+    { area: 'e', img: 'podium-white', title: 'White Lecterns', line: 'Clean lacquer finish for halls and offices.' }
   ],
   cta: {
     title: 'Furnishing a whole school?',
@@ -130,7 +129,7 @@ export const OFFICES = {
     { area: 'b', img: 'office-workstations', full: 1356, title: 'Staff Workstations', line: 'Linear and cluster desks with partitions for teams of any size.' },
     { area: 'c', img: 'office-cubicle', full: 1108, title: 'Cubicles', line: 'Private corner desks with storage and overhead shelves.' },
     { area: 'd', img: 'office-round-station', full: 880, title: '4-Seater Round Stations', line: 'Space-saving clusters with softboard partitions.' },
-    { area: 'e', img: 'office-desk-dark', full: 675, title: 'Manager Desks', line: 'Premium two-tone finishes for cabins and meeting rooms.' }
+    { area: 'e', img: 'office-desk-dark', title: 'Complete Office Interiors', line: 'Wood panelling, desks and storage designed as one space.' }
   ],
   cta: {
     title: 'Setting up a new office?',
@@ -242,15 +241,16 @@ export const PROCESS = [
    Example: { text: 'Our kitchen came out exactly as designed.', name: 'Ahmed R.', work: 'Kitchen' } */
 export const REVIEWS = [];
 
-/* Workshop reels for the video carousel (public/videos/<name>.mp4 + <name>.webp poster).
-   Replace these stock clips with your own phone videos of real projects — vertical 9:16 works best. */
+/* Our own project videos for the reel carousel (public/videos/<name>.mp4 + <name>.webp poster).
+   Originals are in /videos; new clips should be vertical 9:16. */
 export const REELS = [
-  { name: 'reel-chisel', title: 'Hand-cut joinery', tag: 'Craft' },
-  { name: 'reel-saw', title: 'Precision cutting', tag: 'Workshop' },
-  { name: 'reel-plane', title: 'Smooth, true edges', tag: 'Finishing' },
-  { name: 'reel-drill', title: 'Strong fittings', tag: 'Assembly' },
-  { name: 'reel-measure', title: 'Seasoned timber', tag: 'Material' },
-  { name: 'reel-router', title: 'Clean profiles', tag: 'Detailing' },
-  { name: 'reel-sheets', title: 'Premium sheets in stock', tag: 'Sheets' },
-  { name: 'reel-workshop', title: 'Inside the workshop', tag: 'Workshop' }
+  { name: 'reel-gold-wardrobe', title: 'Wardrobe with gold inlay', tag: 'Wardrobe' },
+  { name: 'reel-glass-wardrobe', title: 'Black glass wardrobe', tag: 'Wardrobe' },
+  { name: 'reel-corner-kitchen', title: 'Kitchen with corner carousel', tag: 'Kitchen' },
+  { name: 'reel-burl-wardrobe', title: 'Burl-wood almari', tag: 'Almari' },
+  { name: 'reel-grey-wardrobe', title: 'Wardrobe with dressing unit', tag: 'Wardrobe' },
+  { name: 'reel-marble-kitchen', title: 'Marble-finish kitchen', tag: 'Kitchen' },
+  { name: 'reel-loft-wardrobe', title: 'Full-wall wardrobe with lofts', tag: 'Wardrobe' },
+  { name: 'reel-almari-delivery', title: 'Almari ready for delivery', tag: 'Workshop' },
+  { name: 'reel-folding-table', title: 'Folding wooden table', tag: 'Workshop' }
 ];

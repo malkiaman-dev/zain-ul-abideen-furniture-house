@@ -643,7 +643,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 .showcase__card--a h3 { font-size: clamp(32px, 3.2vw, 52px); }
 .showcase__card--a p { max-height: 80px; opacity: 1; transform: none; }
-.showcase__card--contain .svc__img { background: #f3f1ee; }
+.showcase__card--contain .svc__img { background: #fff; }
 .showcase__card--contain .svc__img img { object-fit: contain; padding: 14px 0 70px; transform-origin: 50% 40%; }
 @media (max-width: 960px) {
   .showcase__grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 240px; grid-template-areas: "a a" "a a" "b c" "d e" "f f"; }

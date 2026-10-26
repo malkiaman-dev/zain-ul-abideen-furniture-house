@@ -71,14 +71,6 @@
    900
   ]
  },
- "door-main": {
-  "author": "James Balensiefen",
-  "url": "https://unsplash.com/photos/closed-brown-wooden-door-LzOTAqHlNw8",
-  "size": [
-   1600,
-   2405
-  ]
- },
  "door-carved": {
   "author": "Alexandra Smielova",
   "url": "https://unsplash.com/photos/a-close-up-of-a-wooden-door-with-pink-flowers-0ZrZAhjUgK0",
@@ -101,38 +93,6 @@
   "size": [
    1600,
    1975
-  ]
- },
- "window-shutter": {
-  "author": "Waldemar Brandt",
-  "url": "https://unsplash.com/photos/brown-wooden-window-frame-on-white-concrete-wall-KwUC31pZAKc",
-  "size": [
-   1600,
-   1066
-  ]
- },
- "dining": {
-  "author": "Jonathan Borba",
-  "url": "https://unsplash.com/photos/a-dining-room-with-a-table-and-chairs-Uaf1g970Hrk",
-  "size": [
-   1600,
-   2400
-  ]
- },
- "dining-2": {
-  "author": "Julia",
-  "url": "https://unsplash.com/photos/brown-wooden-table-with-chairs-JggpIf_rt4E",
-  "size": [
-   1600,
-   2400
-  ]
- },
- "table-joinery": {
-  "author": "Costa Live",
-  "url": "https://unsplash.com/photos/wooden-dining-table-and-chairs-with-grey-upholstery-T_CYjDSfvkY",
-  "size": [
-   1600,
-   2048
   ]
  },
  "table-dark": {
