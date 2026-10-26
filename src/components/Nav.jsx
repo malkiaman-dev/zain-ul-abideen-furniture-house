@@ -65,7 +65,6 @@ export default function Nav({ ready, page }) {
             </a>
           ))}
         </nav>
-        <a href={`tel:${CONFIG.phoneTel}`} className="nav__phone">{CONFIG.phoneDisplay}</a>
         <a href={waLink()} target="_blank" rel="noopener" className="btn btn--gold btn--sm magnetic nav__cta">
           <span>Free Quote</span><Arrow />
         </a>
