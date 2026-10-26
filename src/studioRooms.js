@@ -51,15 +51,14 @@ export const ROOMS = [
   },
   {
     id: 'almari',
-    name: 'Built-in Almari',
+    name: 'Classic Almari',
     img: 'almari',
     surfaces: [
       {
-        id: 'front', name: 'Shutters', def: '3005',
-        quad: [[0.229, 0.141], [0.917, 0.287], [0.917, 0.768], [0.229, 0.958]],
-        clip: [[0.227, 0.143], [0.40, 0.180], [0.60, 0.216], [0.917, 0.288], [0.917, 0.768], [0.229, 0.958]]
+        id: 'front', name: 'Doors & drawers', def: '3005', mask: 'almari-front',
+        quad: [[0.349, 0.003], [0.766, 0.003], [0.757, 0.926], [0.35, 0.976]]
       },
-      { id: 'side', name: 'Side panel', def: '3005', quad: [[0.137, 0.198], [0.229, 0.141], [0.229, 0.958], [0.143, 0.885]] }
+      { id: 'side', name: 'Side & top', def: '3005', mask: 'almari-side', quad: [[0.239, 0.028], [0.349, 0.003], [0.35, 0.976], [0.241, 0.913]] }
     ]
   },
   {
