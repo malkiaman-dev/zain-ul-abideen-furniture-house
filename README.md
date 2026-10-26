@@ -31,6 +31,7 @@ Upload the `dist/` folder to any static host — Netlify, Vercel, Cloudflare Pag
 ### Design Studio (`#/studio` page)
 Customers pick a room, a part (e.g. shutters, side panel) and a sheet; the sheet is drawn onto the photo in perspective while keeping the photo's own light and shadow (`src/lib/roomRender.js`).
 Rooms are defined in `src/studioRooms.js`: each part is four corner points given as fractions of the photo (top-left, top-right, bottom-right, bottom-left), with optional `clip` outlines and `holes` for mirrors or objects in front. To add a room, put the photo in `public/images/` and mark its surfaces the same way.
+Wall rooms (`panels: 4`) lay the sheet out as full boards with visible joints, and use a pre-cut mask PNG in `public/studio/` (white = wall, transparent = furniture in front) so sofas, beds, lamps and art stay untouched.
 
 ### Sheet catalogue
 The 408 sheet designs on the Sheets page are from ZRK Group (zrkgroup.com), taken from their public product pages in October 2026.

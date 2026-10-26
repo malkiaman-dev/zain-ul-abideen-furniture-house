@@ -78,11 +78,21 @@ function drawTriangle(ctx, img, s, d) {
    alternate rows are flipped so the grain flows across joins, and each column is
    shifted so joins don't line up into a grid */
 const BOARD = 2; // board height : width
-function tileTexture(swatch, ru, rv, size) {
+function tileTexture(swatch, ru, rv, size, panels) {
   const h = size * BOARD;
   const nu = Math.ceil(ru), nv = Math.ceil(rv);
   const c = canvas(nu * size, nv * h);
   const ctx = c.getContext('2d');
+  if (panels) {
+    // wall cladding: full 4×8 ft sheets side by side with a visible joint, like real installed boards
+    for (let i = 0; i < nu; i++) for (let j = 0; j < nv; j++) ctx.drawImage(swatch, i * size, j * h, size, h);
+    ctx.fillStyle = 'rgba(0, 0, 0, .38)';
+    for (let i = 1; i < nu; i++) ctx.fillRect(i * size - 2, 0, 3, nv * h);
+    for (let j = 1; j < nv; j++) ctx.fillRect(0, j * h - 2, nu * size, 3);
+    ctx.fillStyle = 'rgba(255, 255, 255, .22)';
+    for (let i = 1; i < nu; i++) ctx.fillRect(i * size + 1, 0, 1, nv * h);
+    return c;
+  }
   for (let i = 0; i < nu; i++) {
     const shift = ((i * 0.618) % 1) * h;
     for (let j = -1; j < nv; j++) {
@@ -117,7 +127,7 @@ function drawHole(ctx, hole, W, H) {
 }
 
 /* One-off per room: scale the photo and extract every surface's mask and shading */
-export function prepareRoom(img, room) {
+export function prepareRoom(img, room, masks = {}) {
   const scale = Math.min(1, Math.sqrt(MAX_PIXELS / (img.naturalWidth * img.naturalHeight)));
   const W = Math.round(img.naturalWidth * scale), H = Math.round(img.naturalHeight * scale);
 
@@ -141,11 +151,18 @@ export function prepareRoom(img, room) {
       const bottom = Math.hypot(quad[2][0] - quad[3][0], quad[2][1] - quad[3][1]);
       const left = Math.hypot(quad[3][0] - quad[0][0], quad[3][1] - quad[0][1]);
       const right = Math.hypot(quad[2][0] - quad[1][0], quad[2][1] - quad[1][1]);
+      const width = (top + bottom) / 2, height = (left + right) / 2;
+      if (surface.panels) {
+        const panelW = width / surface.panels;
+        const rv = height / (panelW * BOARD);
+        // a wall slightly taller than one sheet is shown as one sheet rather than a sliver row
+        return { quad, map: squareToQuad(quad), panels: true, ru: surface.panels, rv: rv < 1.3 ? 1 : rv };
+      }
       return {
         quad,
         map: squareToQuad(quad),
-        ru: Math.max(0.6, (top + bottom) / 2 / tilePx),
-        rv: Math.max(0.6, (left + right) / 2 / (tilePx * BOARD))
+        ru: Math.max(0.6, width / tilePx),
+        rv: Math.max(0.6, height / (tilePx * BOARD))
       };
     });
 
@@ -153,7 +170,8 @@ export function prepareRoom(img, room) {
     const mask = canvas(W, H);
     const mctx = mask.getContext('2d');
     mctx.fillStyle = '#fff';
-    (surface.parts || [surface]).forEach(part => { tracePath(mctx, toPx(part.clip || part.quad, W, H)); mctx.fill(); });
+    if (masks[surface.id]) mctx.drawImage(masks[surface.id], 0, 0, W, H); // pre-cut mask: objects in front stay untouched
+    else (surface.parts || [surface]).forEach(part => { tracePath(mctx, toPx(part.clip || part.quad, W, H)); mctx.fill(); });
     mctx.globalCompositeOperation = 'destination-out';
     (surface.parts || [surface]).forEach(part => (part.holes || []).forEach(h => drawHole(mctx, h, W, H)));
     (surface.holes || []).forEach(h => drawHole(mctx, h, W, H));
@@ -210,7 +228,7 @@ export function renderRoom(ctx, prepared, swatches) {
     wctx.clearRect(0, 0, W, H);
 
     s.parts.forEach(part => {
-      const tex = tileTexture(swatch, part.ru, part.rv, TILE);
+      const tex = tileTexture(swatch, part.ru, part.rv, TILE, part.panels);
       const sw = part.ru * TILE, sh = part.rv * TILE * BOARD;
       const N = part.map.isAffine ? 1 : 14;
       for (let i = 0; i < N; i++) {

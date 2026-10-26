@@ -25,6 +25,15 @@ const initialChoices = () =>
 const Download = () => (
   <svg viewBox="0 0 24 24" className="ico" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14" /></svg>
 );
+const Reset = () => (
+  <svg viewBox="0 0 24 24" className="ico" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4h4" /></svg>
+);
+const Expand = () => (
+  <svg viewBox="0 0 24 24" className="ico" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" /></svg>
+);
+const Eye = () => (
+  <svg viewBox="0 0 24 24" className="ico" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" /><circle cx="12" cy="12" r="3" /></svg>
+);
 const Compare = () => (
   <svg viewBox="0 0 24 24" className="ico" aria-hidden="true"><path d="M12 3v18M8 7l-4 5 4 5M16 7l4 5-4 5" /></svg>
 );
@@ -56,9 +65,11 @@ export default function Studio() {
     const apply = () => {
       const code = sheetFromHash();
       if (!code) return;
-      setRoomIdx(0);
+      // sheet links open the wardrobe room (first furniture room), where any sheet reads naturally
+      const idx = Math.max(0, ROOMS.findIndex(r => r.id === 'wardrobe'));
+      setRoomIdx(idx);
       setSurfaceIdx(0);
-      setChoices(c => ({ ...c, [ROOMS[0].id]: { ...c[ROOMS[0].id], [ROOMS[0].surfaces[0].id]: code } }));
+      setChoices(c => ({ ...c, [ROOMS[idx].id]: { ...c[ROOMS[idx].id], [ROOMS[idx].surfaces[0].id]: code } }));
     };
     apply();
     window.addEventListener('hashchange', apply);
@@ -76,10 +87,14 @@ export default function Studio() {
     setBusy(true);
     prepared.current = null;
     (async () => {
-      const img = await loadImage(`/images/${room.img}.webp`);
+      const withMask = room.surfaces.filter(s => s.mask);
+      const [img, ...maskImgs] = await Promise.all([
+        loadImage(`/images/${room.img}.webp`),
+        ...withMask.map(s => loadImage(`/studio/mask-${s.mask}.png`))
+      ]);
       await new Promise(r => requestAnimationFrame(r)); // let the spinner paint first
       if (cancelled) return;
-      const p = prepareRoom(img, room);
+      const p = prepareRoom(img, room, Object.fromEntries(withMask.map((s, i) => [s.id, maskImgs[i]])));
       if (cancelled) return;
       prepared.current = p;
       const c = canvasRef.current;
@@ -105,6 +120,14 @@ export default function Studio() {
   }
 
   const pick = code => setChoices(c => ({ ...c, [room.id]: { ...c[room.id], [surface.id]: code } }));
+  const reset = () => setChoices(c => ({ ...c, [room.id]: initialChoices()[room.id] }));
+  const goRoom = i => { setRoomIdx((i + ROOMS.length) % ROOMS.length); setSurfaceIdx(0); setCompare(false); };
+  const preview = useRef(null);
+  const fullscreen = () => {
+    const el = preview.current;
+    if (document.fullscreenElement) document.exitFullscreen();
+    else el.requestFullscreen?.() ?? el.webkitRequestFullscreen?.();
+  };
   const applyAll = () => setChoices(c => ({ ...c, [room.id]: Object.fromEntries(room.surfaces.map(s => [s.id, roomChoices[surface.id]])) }));
 
   const results = useMemo(() => {
@@ -161,7 +184,7 @@ export default function Studio() {
           <p className="studio__label">01 · Choose a room</p>
           <div className="studio__room-list">
             {ROOMS.map((r, i) => (
-              <button key={r.id} className={`room${i === roomIdx ? ' is-active' : ''}`} onClick={() => { setRoomIdx(i); setSurfaceIdx(0); setCompare(false); }} aria-pressed={i === roomIdx}>
+              <button key={r.id} className={`room${i === roomIdx ? ' is-active' : ''}`} onClick={() => goRoom(i)} aria-pressed={i === roomIdx}>
                 <img src={`/images/${r.img}-sm.webp`} alt="" loading="lazy" />
                 <span><i>0{i + 1}</i>{r.name}</span>
               </button>
@@ -170,7 +193,17 @@ export default function Studio() {
         </aside>
 
         {/* Preview */}
-        <div className="studio__panel studio__preview">
+        <div className="studio__panel studio__preview" ref={preview}>
+          <div className="studio__top">
+            <p className="studio__live"><Eye />Live Preview</p>
+            <div className="studio__chips-row">
+              <span className="studio__chip">{room.name}</span>
+              <span className="studio__chip studio__chip--code">{current.code}</span>
+              <button className="studio__dl" onClick={download} disabled={busy}><Download /><span>Download</span></button>
+              <button className="studio__tool" onClick={reset} title="Reset to default"><Reset /><span>Reset</span></button>
+              <button className="studio__tool studio__tool--sq" onClick={fullscreen} title="Full screen" aria-label="Full screen"><Expand /></button>
+            </div>
+          </div>
           <div className="studio__bar">
             <div className="studio__parts" role="tablist" aria-label="Part to change">
               {room.surfaces.map((s, i) => (
@@ -181,7 +214,6 @@ export default function Studio() {
             </div>
             <div className="studio__actions">
               <button className={`studio__icon${compare ? ' is-on' : ''}`} onClick={() => setCompare(v => !v)} aria-pressed={compare} title="Before / after"><Compare /><span>Compare</span></button>
-              <button className="studio__icon" onClick={download} disabled={busy} title="Download image"><Download /><span>Download</span></button>
             </div>
           </div>
 
@@ -197,6 +229,8 @@ export default function Studio() {
               </>
             )}
             <div className={`studio__busy${busy ? ' is-on' : ''}`} aria-hidden="true"><span /></div>
+            <button className="studio__arrow studio__arrow--l" onClick={() => goRoom(roomIdx - 1)} aria-label="Previous room">‹</button>
+            <button className="studio__arrow studio__arrow--r" onClick={() => goRoom(roomIdx + 1)} aria-label="Next room">›</button>
           </div>
 
           <div className="studio__summary">

@@ -270,5 +270,37 @@
    1200,
    1600
   ]
+ },
+ "room-living": {
+  "author": "Prydumano Design",
+  "url": "https://unsplash.com/photos/a-modern-living-room-with-a-large-window-vIbxvHj9m9g",
+  "size": [
+   2000,
+   1250
+  ]
+ },
+ "room-bedroom": {
+  "author": "Sanju Pandita",
+  "url": "https://unsplash.com/photos/a-bedroom-with-a-bed-and-a-painting-on-the-wall-KNefwT-g4KI",
+  "size": [
+   2000,
+   1333
+  ]
+ },
+ "room-bedroom2": {
+  "author": "Sanju Pandita",
+  "url": "https://unsplash.com/photos/a-bed-sitting-in-a-bedroom-next-to-two-nightstands-KFHsoQGT6uk",
+  "size": [
+   2000,
+   1333
+  ]
+ },
+ "room-lounge": {
+  "author": "Sunguk Kim",
+  "url": "https://unsplash.com/photos/white-and-black-bench-near-white-wall-uTPYG4Bdiz0",
+  "size": [
+   2000,
+   1469
+  ]
  }
 }

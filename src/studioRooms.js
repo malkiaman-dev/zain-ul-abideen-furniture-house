@@ -1,7 +1,42 @@
 /* Rooms for the Design Studio.
    Points are 0–1 fractions of the photo: quads go top-left, top-right, bottom-right, bottom-left.
-   "def" is the sheet code shown when the room first opens. */
+   "def" is the sheet code shown when the room first opens.
+   "panels" lays the sheet out as that many full boards across with visible joints (wall cladding).
+   "mask" names a pre-cut PNG in public/studio/ so furniture in front of a wall is left untouched. */
 export const ROOMS = [
+  {
+    id: 'living',
+    name: 'Modern Living Room',
+    img: 'room-living',
+    surfaces: [
+      { id: 'wall', name: 'Back Wall', def: '8035', panels: 4, mask: 'room-living', quad: [[0.255, 0.297], [0.728, 0.297], [0.728, 0.712], [0.255, 0.712]] }
+    ]
+  },
+  {
+    id: 'bedroom',
+    name: 'Calm Bedroom',
+    img: 'room-bedroom',
+    surfaces: [
+      { id: 'wall', name: 'Back Wall', def: '5046', panels: 4, mask: 'room-bedroom', quad: [[0.184, 0.152], [0.958, 0.152], [0.958, 0.70], [0.184, 0.70]] },
+      { id: 'headboard', name: 'Headboard Panel', def: '3005', mask: 'room-headboard', quad: [[0.181, 0.497], [0.962, 0.497], [0.962, 0.667], [0.181, 0.667]] }
+    ]
+  },
+  {
+    id: 'bedroom2',
+    name: 'Sunlit Bedroom',
+    img: 'room-bedroom2',
+    surfaces: [
+      { id: 'wall', name: 'Back Wall', def: '8202', panels: 4, mask: 'room-bedroom2', quad: [[0.19, 0], [0.99, 0], [0.99, 0.735], [0.19, 0.735]] }
+    ]
+  },
+  {
+    id: 'lounge',
+    name: 'Gallery Lounge',
+    img: 'room-lounge',
+    surfaces: [
+      { id: 'wall', name: 'Feature Wall', def: '5061', panels: 4, mask: 'room-lounge', quad: [[0, 0], [1, 0], [1, 0.873], [0, 0.873]] }
+    ]
+  },
   {
     id: 'wardrobe',
     name: 'Loft Wardrobe',
