@@ -59,8 +59,8 @@ export const ROOMS = [
         id: 'body', name: 'Almari', def: '3005', mask: 'almari',
         quad: [[0.349, 0.024], [0.757, 0.024], [0.757, 0.926], [0.35, 0.976]]
       },
-      // the side panel takes the same sheet as a plain colour, like a real edge-banded side
-      { id: 'side', follows: 'body', solid: true, mask: 'almari-side', quad: [[0.241, 0.056], [0.349, 0.024], [0.35, 0.976], [0.241, 0.913]] }
+      // side panel, top board and right edge take the same sheet as a plain colour, like real edge banding
+      { id: 'side', follows: 'body', solid: true, mask: 'almari-side', quad: [[0.238, 0], [0.767, 0], [0.767, 0.976], [0.238, 0.976]] }
     ]
   },
   {
