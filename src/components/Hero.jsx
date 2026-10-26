@@ -153,7 +153,6 @@ export default function Hero({ ready }) {
         </aside>
       </div>
 
-      <a href="#services" className="hero__scroll" aria-label="Scroll down"><span /></a>
     </section>
   );
 }

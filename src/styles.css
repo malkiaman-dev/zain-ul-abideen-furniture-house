@@ -268,9 +268,6 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .hero__bar i { display: block; height: 100%; background: var(--gold-hi); transform-origin: left; transform: scaleX(0); }
 .hero__thumb.is-active .hero__bar i { animation: bar linear forwards; }
 @keyframes bar { to { transform: scaleX(1); } }
-.hero__scroll { position: absolute; left: 50%; bottom: 22px; width: 24px; height: 38px; margin-left: -12px; border: 1.5px solid rgba(255, 255, 255, .45); border-radius: 14px; }
-.hero__scroll span { position: absolute; left: 50%; top: 7px; width: 3px; height: 7px; margin-left: -1.5px; border-radius: 2px; background: var(--gold-hi); animation: wheel 1.8s var(--ease) infinite; }
-@keyframes wheel { 0% { opacity: 0; transform: translateY(-3px); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(12px); } }
 
 /* ---------- Services bento ---------- */
 .bento {
@@ -583,7 +580,6 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   .hero__caption strong { font-size: 19px; }
   .hero__caption span:last-child { display: none; }
   .hero__thumbs { width: 170px; flex: none; }
-  .hero__scroll { display: none; }
   .hero__shade { background: linear-gradient(0deg, rgba(10, 7, 5, .92) 0%, rgba(10, 7, 5, .55) 45%, rgba(10, 7, 5, .2) 75%, rgba(10, 7, 5, .5) 100%); }
   .bento {
     grid-template-columns: 1fr 1fr;
