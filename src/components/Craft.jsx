@@ -1,7 +1,7 @@
 import { WHY, photo } from '../data.js';
 
 export default function Craft() {
-  const big = photo('work-craftsman', 1356);
+  const big = photo('craft-plane', 1356);
   const small = photo('craft-mark');
   return (
     <section className="craft section" id="why">
