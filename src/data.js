@@ -103,7 +103,7 @@ export const SCHOOLS = {
   intro: 'Desks, benches, kids tables and rostrums — made in bulk, to your sizes and colours, strong enough for years of daily use.',
   points: ['Bulk orders', 'Custom sizes & colours', 'Steel + wood frames'],
   items: [
-    { area: 'a', img: 'school-classroom', title: 'Classroom Desks & Benches', line: 'Single and double desks with sturdy steel frames, in any colour.' },
+    { area: 'a', img: 'school-blue-classroom', full: 1254, title: 'Classroom Desks & Benches', line: 'Single and double desks with sturdy steel frames, in any colour.' },
     { area: 'b', img: 'school-kids-table', title: 'Montessori & Kids Tables', line: 'Rounded, child-safe tables in bright colours.' },
     { area: 'c', img: 'podium-mic', contain: true, title: 'Rostrums & Podiums', line: 'For assembly halls, auditoriums and events.' },
     { area: 'd', img: 'podium-wood', contain: true, title: 'Acrylic Lecterns', line: 'Wood and frosted acrylic for a modern stage.' },
