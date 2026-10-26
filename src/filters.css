@@ -102,3 +102,11 @@
 .cursor.is-hover.is-down .cursor__ring { scale: .6; }
 .cursor.is-label.is-down .cursor__ring { scale: .9; }
 .cursor.is-down .cursor__dot { scale: .6; }
+
+/* ---------- Mobile menu: calmer type size, tidy rows ---------- */
+.menu { justify-content: flex-start; padding-top: 104px; background: var(--bg); }
+.menu nav { gap: 0; }
+.menu nav a { display: flex; align-items: center; justify-content: space-between; padding: 14px 2px; font-size: clamp(24px, 6.4vw, 34px); line-height: 1.2; border-bottom: 1px solid var(--line); }
+.menu nav a::after { content: "\2192"; font-family: var(--f-body); font-size: 18px; color: var(--gold); opacity: .7; }
+.menu nav a:hover::after { opacity: 1; }
+.menu__foot { font-size: 15px; }
