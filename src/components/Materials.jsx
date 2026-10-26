@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { MATERIALS, photo } from '../data.js';
 import { Arrow } from './Icons.jsx';
+import WoodGuide from './WoodGuide.jsx';
 
 /* Expanding panels — hover (or tap) a wood to open it */
 export default function Materials() {
@@ -12,7 +13,7 @@ export default function Materials() {
           <p className="eyebrow" data-reveal><span className="dot" />Materials</p>
           <h2 className="h2" data-reveal="1">Choose your <em className="gold">wood.</em></h2>
         </div>
-        <p className="lead" data-reveal="2">Sheesham, Diyar, Walnut, Kail and imported hardwoods for furniture that lasts generations — or premium sheets for a sleek look at a smart price. We'll help you choose.</p>
+        <p className="lead" data-reveal="2">Shisham, Diyar, Akhrot and Kail from the north and the KP plains for furniture that lasts generations — or premium sheets for a sleek look at a smart price. We'll help you choose.</p>
       </header>
 
       <div className="woods" data-reveal>
@@ -40,6 +41,8 @@ export default function Materials() {
           );
         })}
       </div>
+
+      <WoodGuide />
 
       <a href="#/sheets" className="sheets-teaser" data-reveal data-cursor="Browse">
         <span className="sheets-teaser__swatches" aria-hidden="true">

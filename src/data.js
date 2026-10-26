@@ -132,24 +132,24 @@ export const OFFICES = {
 
 export const MATERIALS = [
   {
-    img: 'wood-sheesham', name: 'Sheesham', aka: 'Indian Rosewood', type: 'Premium local hardwood',
-    text: 'The premier hardwood of Pakistan — high strength, rich grain patterns and natural resistance to termites.',
-    best: 'Solid furniture, beds, dining sets, wardrobes'
+    img: 'wood-sheesham', name: 'Shisham / Tali', aka: 'North Indian Rosewood', type: 'Premium local hardwood',
+    text: 'Grown across the KP plains, including Swabi. Dense, stable and highly termite-resistant — the gold standard for wedding furniture and main doors.',
+    best: 'Wedding furniture, beds, dining sets, main doors'
   },
   {
-    img: 'wood-diyar', name: 'Diyar', aka: 'Deodar · Himalayan Cedar', type: 'Solid softwood',
-    text: 'Lightweight yet durable and naturally aromatic, with high resistance to rot and moisture.',
-    best: 'Doors, window frames, ceilings, structural woodwork'
+    img: 'wood-diyar', name: 'Diyar', aka: 'Deodar · Himalayan Cedar', type: 'Premium softwood',
+    text: 'From the northern forests of Swat and Dir. Pleasant aroma and natural oils that make it highly resistant to rot.',
+    best: 'Door frames (choukats), window frames, roofing'
   },
   {
-    img: 'wood-walnut', name: 'Walnut', aka: 'Akhrot', type: 'Luxury hardwood',
-    text: 'Sourced from the northern regions — a deep brown wood with an upscale, refined finish.',
-    best: 'Luxury furniture, fine carving, decorative pieces'
+    img: 'wood-walnut', name: 'Akhrot', aka: 'Walnut', type: 'Luxury hardwood',
+    text: 'A dark luxury hardwood brought down from the mountains, prized for high-end carving and decorative work.',
+    best: 'Carving, decorative panels, premium flooring'
   },
   {
-    img: 'wood-kail', name: 'Kail / Pine', aka: 'Blue Pine', type: 'Budget-friendly softwood',
-    text: 'Economical, light and easy to shape — a smart choice for interiors, though less durable than hardwoods.',
-    best: 'Budget interior furniture, light panels, shelving'
+    img: 'wood-kail', name: 'Kail', aka: 'Blue Pine', type: 'Mid-range softwood',
+    text: 'From the northern hills — lighter and easier to work than Shisham. We season it properly so it doesn\'t warp.',
+    best: 'Room doors, window frames, household furniture'
   },
   {
     img: 'wood-oak', name: 'Oak / Ash', aka: 'Imported hardwood', type: 'Imported hardwood',
@@ -157,11 +157,62 @@ export const MATERIALS = [
     best: 'Modern kitchens, tables, office furniture'
   },
   {
-    img: 'wood-laminate', name: 'Laminate & Sheets', aka: 'MDF · Chipboard · HPL', type: 'Engineered boards',
-    text: 'Budget-smart, easy to clean and available in hundreds of wood-grain, marble and gloss finishes.',
-    best: 'Wardrobes, kitchens, office storage'
+    img: 'wood-laminate', name: 'MDF & Lamination', aka: 'UV · High-gloss · ZRK sheets', type: 'Engineered boards',
+    text: 'Pre-laminated and UV sheets that cut the cost of solid wood — easy to clean, in hundreds of wood-grain, marble and gloss finishes.',
+    best: 'Kitchens, wardrobes, TV consoles, office storage'
   }
 ];
+
+/* Wood guide — "use" says how it relates to furniture so customers aren't misled */
+export const WOOD_GUIDE = [
+  {
+    group: 'Premium',
+    title: 'Premium woods for fine furniture & door frames',
+    intro: 'Highly sought after for durability, beautiful grain and resistance to termites.',
+    woods: [
+      { name: 'Shisham / Tali', aka: 'North Indian Rosewood', from: 'KP plains, incl. Swabi', use: 'top', text: 'Incredibly dense, stable and termite-resistant — the gold standard for wedding furniture and main doors.', for: ['Wedding furniture', 'Main doors', 'Beds & dining'] },
+      { name: 'Diyar', aka: 'Deodar · Himalayan Cedar', from: 'Swat & Dir forests', use: 'top', text: 'Premium softwood with a pleasant aroma and natural oils that make it highly rot-resistant.', for: ['Choukats', 'Window frames', 'Roofing rafters'] },
+      { name: 'Akhrot', aka: 'Walnut', from: 'Northern mountains', use: 'top', text: 'Luxury dark hardwood prized for high-end carving and decorative work.', for: ['Carving', 'Decorative panels', 'Premium flooring'] }
+    ]
+  },
+  {
+    group: 'Construction',
+    title: 'General construction & mid-range carpentry',
+    intro: 'A balance of strength and affordability — the everyday choices for building work.',
+    woods: [
+      { name: 'Kail', aka: 'Blue Pine', from: 'Northern hills', use: 'good', text: 'Lighter and easier to work than Shisham. Needs proper seasoning to avoid warping.', for: ['Room doors', 'Window frames', 'Household furniture'] },
+      { name: 'Partal', aka: 'Silver Fir / Spruce', from: 'Northern forests', use: 'build', text: 'Budget-friendly, lightweight softwood used mainly for structural work.', for: ['Roofing', 'Framing', 'Shuttering'] },
+      { name: 'Kikar', aka: 'Babul', from: 'Local', use: 'build', text: 'Tough, coarse hardwood. Hard to polish finely, so rarely used for fine furniture.', for: ['Heavy-duty frames', 'Supports', 'Tools'] }
+    ]
+  },
+  {
+    group: 'Farmland',
+    title: 'Commercial farmland & industrial woods',
+    intro: 'Fast-growing trees farmed across Mardan and Swabi that drive the local timber trade.',
+    woods: [
+      { name: 'Poplar', aka: 'Lachi / Bhan', from: 'Mardan & Swabi farms', use: 'ply', text: 'The backbone of the commercial timber trade — processed into affordable plywood sheets and crates.', for: ['Plywood', 'Packing crates'] },
+      { name: 'Safeda', aka: 'Eucalyptus', from: 'Farm boundaries', use: 'no', text: 'Grown as a cash crop for poles, scaffolding and fuel wood.', for: ['Roofing poles', 'Scaffolding'] },
+      { name: 'Sumbal', aka: 'Silk Cotton Tree', from: 'Local farms', use: 'no', text: 'Very soft and light — used for match splints, light boxes and inner plyboard layers.', for: ['Plyboard cores', 'Light boxes'] }
+    ]
+  },
+  {
+    group: 'Engineered',
+    title: 'Modern engineered materials',
+    intro: 'Man-made boards for modern interiors — sleek finishes at a smaller cost than solid wood.',
+    woods: [
+      { name: 'MDF & UV Sheets', aka: 'High-gloss & matte', from: 'Factory made', use: 'top', text: 'Medium-density fibreboard with gloss or matte faces for a clean, modern look.', for: ['Kitchens', 'Wardrobes', 'TV consoles'], link: true },
+      { name: 'Lamination & Shutter Boards', aka: 'e.g. ZRK laminations', from: 'Factory made', use: 'good', text: 'Pre-laminated sheets that cut the cost of traditional solid-wood carpentry.', for: ['Wardrobes', 'Office furniture', 'Shutters'], link: true }
+    ]
+  }
+];
+
+export const WOOD_USE = {
+  top: 'We use it for furniture',
+  good: 'Good value for furniture',
+  build: 'Construction use',
+  ply: 'Used inside plywood',
+  no: 'Not for furniture'
+};
 
 export const WHY = [
   { title: 'Free home measurement', text: 'We visit, measure precisely and suggest what fits your space and budget.' },

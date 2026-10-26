@@ -9,6 +9,44 @@
 .wood__best { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin-top: 8px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, .16); font-size: 14px; }
 .wood__best b { font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); font-weight: 700; }
 
+/* ---------- Wood guide ---------- */
+.guide { margin-top: 26px; padding: clamp(22px, 3vw, 40px); border-radius: 26px; border: 1px solid var(--line); background: linear-gradient(160deg, var(--bg-3), var(--bg-2) 60%); }
+.guide__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 30px; }
+.guide__head h3 { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: clamp(26px, 2.4vw, 36px); letter-spacing: -.01em; }
+.guide__head h3 em { font-size: .6em; color: var(--muted); }
+.guide__tabs { display: flex; gap: 4px; padding: 5px; border: 1px solid var(--line-2); border-radius: 999px; overflow-x: auto; scrollbar-width: none; }
+.guide__tabs::-webkit-scrollbar { display: none; }
+.guide__tabs button { flex: none; display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 999px; font-size: 14px; font-weight: 500; color: var(--muted); transition: color .3s, background-color .3s; }
+.guide__tabs button:hover { color: var(--text); }
+.guide__tabs button.is-active { background: var(--gold); color: #1d140a; font-weight: 600; }
+.guide__tab-n { font-family: var(--f-display); font-size: 11px; opacity: .65; }
+.guide__intro { margin: 22px 0 22px; color: var(--muted); max-width: 70ch; }
+.guide__intro b { color: var(--text); font-weight: 600; }
+.guide__list { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px; }
+.gw {
+  --c: var(--gold);
+  position: relative; display: flex; flex-direction: column;
+  padding: 22px; border-radius: 18px;
+  border: 1px solid var(--line); background: rgba(10, 7, 5, .45);
+  transition: border-color .4s, transform .6s var(--ease);
+}
+.gw:hover { border-color: var(--line-2); transform: translateY(-3px); }
+.gw::before { content: ""; position: absolute; left: 22px; right: 22px; top: 0; height: 2px; border-radius: 2px; background: var(--c); opacity: .8; }
+.gw--good { --c: #a9c47a; }
+.gw--build, .gw--ply { --c: #8d8172; }
+.gw--no { --c: #b0705c; }
+.gw__use { align-self: flex-start; margin-bottom: 14px; padding: 4px 10px; border-radius: 999px; font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c); border: 1px solid currentColor; }
+.gw h4 { margin: 0; font-family: var(--f-display); font-weight: 450; font-size: 26px; line-height: 1.1; }
+.gw__aka { margin: 2px 0 0; font-family: var(--f-display); font-style: italic; color: var(--gold-hi); }
+.gw__from { display: flex; align-items: center; gap: 6px; margin: 10px 0 0; font-size: 13px; color: var(--dim); }
+.gw__from .ico { width: 14px; height: 14px; }
+.gw__text { margin: 12px 0 16px; color: var(--muted); font-size: 14.5px; line-height: 1.55; }
+.gw__for { list-style: none; margin: auto 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.gw__for li { padding: 4px 10px; border-radius: 999px; background: rgba(255, 255, 255, .05); font-size: 12px; color: var(--text); }
+.gw__link { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; color: var(--gold); font-size: 13.5px; font-weight: 600; }
+.gw__link .ico { width: 15px; height: 15px; transition: transform .4s var(--ease); }
+.gw__link:hover .ico { transform: translateX(4px); }
+
 /* ---------- Teaser on the home page ---------- */
 .sheets-teaser {
   display: flex; align-items: center; gap: 22px; margin-top: 20px;
