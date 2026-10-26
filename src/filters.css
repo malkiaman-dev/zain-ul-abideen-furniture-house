@@ -90,3 +90,15 @@
 .studio__stage:-webkit-full-screen { width: 100vw; height: 100vh; border-radius: 0; background: #000; }
 .studio__stage:-webkit-full-screen canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
 .studio__stage:-webkit-full-screen .studio__arrow { display: none; }
+
+/* ---------- Smooth cursor: size changes use GPU "scale" instead of width/margin (no layout work per frame) ---------- */
+.cursor__dot, .cursor__ring { will-change: transform; backface-visibility: hidden; }
+.cursor__dot { mix-blend-mode: normal; box-shadow: 0 0 10px rgba(244, 217, 149, .6); transition: opacity .25s, scale .35s var(--ease); }
+.cursor__ring, .cursor.is-hover .cursor__ring, .cursor.is-label .cursor__ring { width: 86px; height: 86px; margin: -43px 0 0 -43px; }
+.cursor__ring { border-width: 1.5px; scale: .44; transition: scale .55s var(--ease), background-color .4s, border-color .4s; }
+.cursor.is-hover .cursor__ring { scale: .72; }
+.cursor.is-label .cursor__ring { scale: 1; }
+.cursor.is-down .cursor__ring { scale: .36; }
+.cursor.is-hover.is-down .cursor__ring { scale: .6; }
+.cursor.is-label.is-down .cursor__ring { scale: .9; }
+.cursor.is-down .cursor__dot { scale: .6; }

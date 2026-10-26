@@ -13,16 +13,24 @@ export default function Cursor() {
     const dot = el.querySelector('.cursor__dot');
     const label = el.querySelector('.cursor__label');
     const pos = { x: mouse.x, y: mouse.y };
-    let raf;
+    let raf, last = performance.now();
 
-    const tick = () => {
-      pos.x = lerp(pos.x, mouse.x, 0.18);
-      pos.y = lerp(pos.y, mouse.y, 0.18);
-      dot.style.transform = `translate3d(${mouse.x}px, ${mouse.y}px, 0)`;
-      ring.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
+    // frame-rate independent easing: same feel on 60 Hz and 144 Hz screens, no jumps after a slow frame
+    const ease = (rate, dt) => 1 - Math.exp(-rate * dt);
+    const tick = now => {
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      // dot and ring share one smoothed position so they always stay centred together
+      const k = ease(24, dt);
+      pos.x = lerp(pos.x, mouse.x, k); pos.y = lerp(pos.y, mouse.y, k);
+      // position via the standalone `translate` property: it is applied before `scale`,
+      // so shrinking/growing the ring never shifts where it sits
+      const t = `${pos.x.toFixed(2)}px ${pos.y.toFixed(2)}px`;
+      dot.style.translate = t;
+      ring.style.translate = t;
       raf = requestAnimationFrame(tick);
     };
-    tick();
+    raf = requestAnimationFrame(tick);
 
     const SEL = '[data-cursor], a, button, label, [role="button"]';
     const over = e => {
