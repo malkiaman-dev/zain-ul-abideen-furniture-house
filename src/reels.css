@@ -1,0 +1,67 @@
+/* ==========================================================================
+   Workshop reels — curved video carousel
+   ========================================================================== */
+.reels { overflow: hidden; }
+.reels__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px 40px; margin-bottom: clamp(30px, 4vw, 50px); }
+.reels__insta { display: inline-flex; align-items: center; gap: 10px; padding-bottom: 8px; font-size: 15px; font-weight: 600; color: var(--muted); transition: color .3s; }
+.reels__insta .ico { width: 20px; height: 20px; color: var(--gold); }
+.reels__insta:hover { color: var(--text); }
+
+.reels__stage {
+  --w: min(250px, 15.4vw);          /* centre card width */
+  --step: calc(var(--w) * 1.2);     /* distance between card centres */
+  position: relative;
+  height: calc(var(--w) * 16 / 9 * 1.42);
+  perspective: 1500px;
+  touch-action: pan-y;
+  user-select: none;
+}
+.reel {
+  position: absolute; left: 50%; top: 50%;
+  width: var(--w); aspect-ratio: 9 / 16;
+  padding: 0; overflow: hidden; border-radius: 22px;
+  background: var(--bg-3);
+  box-shadow: 0 30px 60px -25px rgba(0, 0, 0, .85);
+  /* further from centre = larger and turned toward the viewer, so the row curves like a concave screen */
+  transform:
+    translate(-50%, -50%)
+    translateX(calc(var(--o) * var(--step) + var(--o) * var(--a) * var(--w) * .1))
+    rotateY(calc(var(--o) * -15deg))
+    scale(calc(1 + var(--a) * .17));
+  transition: transform .9s var(--ease), opacity .6s var(--ease), box-shadow .6s;
+  will-change: transform;
+}
+.reel video { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+.reel__shade { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(10, 7, 5, .82)); opacity: .9; transition: opacity .5s; }
+.reel__cap { position: absolute; left: 14px; right: 14px; bottom: 14px; display: grid; gap: 2px; text-align: left; transform: translateY(6px); opacity: 0; transition: opacity .5s, transform .6s var(--ease); }
+.reel.is-center .reel__cap { opacity: 1; transform: none; }
+.reel__cap small { font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--gold-hi); }
+.reel__cap b { font-family: var(--f-display); font-weight: 450; font-size: 18px; line-height: 1.15; }
+.reel__play {
+  position: absolute; top: 14px; right: 14px; width: 40px; height: 40px; border-radius: 50%;
+  display: grid; place-items: center; color: #1d140a; background: rgba(255, 252, 245, .9);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .35); transition: transform .4s var(--ease);
+}
+.reel__play .ico { width: 16px; height: 16px; margin-left: 2px; }
+.reel.is-center:hover .reel__play { transform: scale(1.12); }
+.reel.is-center { box-shadow: 0 30px 60px -25px rgba(0, 0, 0, .9), 0 0 0 1px var(--line-2); }
+
+.reels__dots { display: flex; justify-content: center; gap: 8px; margin-top: clamp(22px, 3vw, 36px); }
+.reels__dots button { width: 18px; height: 5px; border-radius: 5px; background: var(--line-2); transition: width .5s var(--ease), background-color .4s; }
+.reels__dots button:hover { background: rgba(214, 170, 88, .55); }
+.reels__dots button.is-active { width: 34px; background: var(--gold); }
+
+/* ---------- player ---------- */
+.reelbox { position: fixed; inset: 0; z-index: 250; display: grid; place-items: center; padding: 20px; background: rgba(8, 6, 4, .92); backdrop-filter: blur(10px); animation: fadeIn .35s var(--ease); }
+.reelbox__fig { margin: 0; display: grid; gap: 14px; width: min(420px, 100%); animation: zoomIn .5s var(--ease); }
+.reelbox__fig video { width: 100%; height: auto; max-height: calc(100svh - 150px); object-fit: contain; border-radius: 18px; background: #000; }
+.reelbox__fig figcaption { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.reelbox__fig small { display: block; font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); }
+.reelbox__fig b { font-family: var(--f-display); font-weight: 400; font-size: 22px; }
+
+@media (max-width: 760px) {
+  /* phones: centre card plus one either side; the outer pair slides off-screen */
+  .reels__stage { --w: 44vw; --step: calc(var(--w) * 1.05); }
+  .reel { border-radius: 16px; }
+  .reel__cap b { font-size: 15px; }
+}

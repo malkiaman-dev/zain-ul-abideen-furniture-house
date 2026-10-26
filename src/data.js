@@ -12,6 +12,7 @@ export const CONFIG = {
   email: 'info@zainulabideenfurniture.com',
   address: 'Main Bazaar, Your City, Pakistan',
   hours: 'Mon – Sat · 9:00 am – 8:00 pm',
+  instagram: { handle: '@zainulabideenfurniture', href: '#' },
   socials: [
     { label: 'Facebook', href: '#' },
     { label: 'Instagram', href: '#' },
@@ -240,3 +241,16 @@ export const PROCESS = [
 /* Add real customer reviews here — the section stays hidden while this list is empty.
    Example: { text: 'Our kitchen came out exactly as designed.', name: 'Ahmed R.', work: 'Kitchen' } */
 export const REVIEWS = [];
+
+/* Workshop reels for the video carousel (public/videos/<name>.mp4 + <name>.webp poster).
+   Replace these stock clips with your own phone videos of real projects — vertical 9:16 works best. */
+export const REELS = [
+  { name: 'reel-chisel', title: 'Hand-cut joinery', tag: 'Craft' },
+  { name: 'reel-saw', title: 'Precision cutting', tag: 'Workshop' },
+  { name: 'reel-plane', title: 'Smooth, true edges', tag: 'Finishing' },
+  { name: 'reel-drill', title: 'Strong fittings', tag: 'Assembly' },
+  { name: 'reel-measure', title: 'Seasoned timber', tag: 'Material' },
+  { name: 'reel-router', title: 'Clean profiles', tag: 'Detailing' },
+  { name: 'reel-sheets', title: 'Premium sheets in stock', tag: 'Sheets' },
+  { name: 'reel-workshop', title: 'Inside the workshop', tag: 'Workshop' }
+];

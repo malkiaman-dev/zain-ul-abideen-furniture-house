@@ -10,6 +10,7 @@ import Services from './components/Services.jsx';
 import Showcase from './components/Showcase.jsx';
 import { SCHOOLS, OFFICES } from './data.js';
 import Craft from './components/Craft.jsx';
+import VideoCarousel from './components/VideoCarousel.jsx';
 import Gallery from './components/Gallery.jsx';
 import Materials from './components/Materials.jsx';
 import Process from './components/Process.jsx';
@@ -133,6 +134,7 @@ export default function App() {
             <Showcase data={OFFICES} />
             <Showcase data={SCHOOLS} />
             <Craft />
+            <VideoCarousel />
             <Gallery />
             <Materials />
             <Process />
