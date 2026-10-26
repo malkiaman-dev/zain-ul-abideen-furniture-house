@@ -199,7 +199,8 @@ export function prepareRoom(img, room, masks = {}) {
       if (m[i + 3] >= 8) {
         const s = 1 + (L[p] / mean - 1) * contrast;
         dv = Math.max(0, Math.min(1, s)) * 255;
-        lv = Math.max(0, Math.min(1, (s - 1) * 0.55)) * 255;
+        // highlights brighten the sheet a little, but never wash it out to white (e.g. walls next to lamps)
+        lv = Math.max(0, Math.min(0.22, (s - 1) * 0.55)) * 255;
       }
       dd[i] = dd[i + 1] = dd[i + 2] = dv; dd[i + 3] = 255;
       ld[i] = ld[i + 1] = ld[i + 2] = lv; ld[i + 3] = 255;
