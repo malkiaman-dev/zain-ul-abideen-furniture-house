@@ -119,14 +119,17 @@ export default function Studio() {
     const p = prepared.current;
     if (!p) return;
     setBusy(true);
-    const entries = await Promise.all(Object.entries(choices[room.id]).map(async ([id, code]) => [id, await getSwatch(code)]));
+    const entries = await Promise.all(Object.entries(choices[room.id]).filter(([, code]) => code).map(async ([id, code]) => [id, await getSwatch(code)]));
     if (token !== drawToken.current || prepared.current !== p) return;
     renderRoom(canvasRef.current.getContext('2d'), p, Object.fromEntries(entries));
     setBusy(false);
   }
 
   const pick = code => setChoices(c => ({ ...c, [room.id]: { ...c[room.id], [surface.id]: code } }));
-  const reset = () => setChoices(c => ({ ...c, [room.id]: initialChoices()[room.id] }));
+  const reset = () => setChoices(c => ({
+    ...c,
+    [room.id]: Object.fromEntries(room.surfaces.map(s => [s.id, null]))
+  }));
   const goRoom = i => { setRoomIdx((i + ROOMS.length) % ROOMS.length); setSurfaceIdx(0); setCompare(false); };
   const preview = useRef(null);
   const fullscreen = () => {
@@ -134,7 +137,11 @@ export default function Studio() {
     if (document.fullscreenElement) document.exitFullscreen();
     else el.requestFullscreen?.() ?? el.webkitRequestFullscreen?.();
   };
-  const applyAll = () => setChoices(c => ({ ...c, [room.id]: Object.fromEntries(room.surfaces.map(s => [s.id, roomChoices[surface.id]])) }));
+  const applyAll = () => {
+    const code = roomChoices[surface.id];
+    if (!code) return;
+    setChoices(c => ({ ...c, [room.id]: Object.fromEntries(room.surfaces.map(s => [s.id, code])) }));
+  };
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -160,7 +167,9 @@ export default function Studio() {
 
   const message = () => {
     const lines = room.surfaces.map(s => {
-      const sh = BY_CODE[roomChoices[s.id]];
+      const code = roomChoices[s.id];
+      if (!code) return `${s.name}: original image, no sheet applied`;
+      const sh = BY_CODE[code];
       return `• ${s.name}: ${sh.code} — ${sh.name} (${sh.series})`;
     });
     return `Assalam o Alaikum! I designed a ${room.name} in your Design Studio:\n${lines.join('\n')}\n\nPlease share price and details.`;
@@ -175,7 +184,7 @@ export default function Studio() {
     setSplit(Math.max(0, Math.min(100, ((e.clientX - r.left) / r.width) * 100)));
   };
 
-  const current = BY_CODE[roomChoices[surface.id]];
+  const current = roomChoices[surface.id] ? BY_CODE[roomChoices[surface.id]] : null;
 
   return (
     <section className="studio">
@@ -207,9 +216,9 @@ export default function Studio() {
             <p className="studio__live"><Eye />Live Preview</p>
             <div className="studio__chips-row">
               <span className="studio__chip">{room.name}</span>
-              <span className="studio__chip studio__chip--code">{current.code}</span>
+              <span className="studio__chip studio__chip--code">{current?.code || 'Original'}</span>
               <button className="studio__dl" onClick={download} disabled={busy}><Download /><span>Download</span></button>
-              <button className="studio__tool" onClick={reset} title="Reset to default"><Reset /><span>Reset</span></button>
+              <button className="studio__tool" onClick={reset} title="Reset image to original"><Reset /><span>Reset</span></button>
               <button className="studio__tool studio__tool--sq" onClick={fullscreen} title="Full screen" aria-label="Full screen"><Expand /></button>
             </div>
           </div>
@@ -217,7 +226,7 @@ export default function Studio() {
             <div className="studio__parts" role="tablist" aria-label="Part to change">
               {room.surfaces.map((s, i) => (
                 <button key={s.id} role="tab" aria-selected={s.id === surface.id} className={s.id === surface.id ? 'is-active' : ''} onClick={() => setSurfaceIdx(i)}>
-                  <img src={swatchSrc(roomChoices[s.id])} alt="" />{s.name}
+                  <img src={roomChoices[s.id] ? swatchSrc(roomChoices[s.id]) : `/images/${room.img}-sm.webp`} alt="" />{s.name}
                 </button>
               ))}
             </div>
@@ -227,7 +236,7 @@ export default function Studio() {
           </div>
 
           <div className={`studio__stage${compare ? ' is-compare' : ''}`} ref={stage} onPointerMove={onStageMove} onPointerDown={onStageMove} onDoubleClick={() => document.fullscreenElement && document.exitFullscreen()} style={{ '--split': `${split}%`, aspectRatio: prepared.current ? `${prepared.current.W} / ${prepared.current.H}` : undefined }}>
-            <canvas ref={canvasRef} aria-label={`${room.name} preview with ${current.code} ${current.name}`} role="img" />
+            <canvas ref={canvasRef} aria-label={current ? `${room.name} preview with ${current.code} ${current.name}` : `${room.name}, original image`} role="img" />
             {compare && (
               <>
                 <img className="studio__before" src={`/images/${room.img}.webp`} alt="Original room" />
@@ -244,15 +253,15 @@ export default function Studio() {
 
           <div className="studio__summary">
             <div className="studio__current">
-              <img src={swatchSrc(current.code)} alt="" />
+              <img src={current ? swatchSrc(current.code) : `/images/${room.img}-sm.webp`} alt="" />
               <div>
                 <small>{surface.name}</small>
-                <b>{current.code} · {current.name}</b>
-                <span>{current.series} · {current.finish}</span>
+                <b>{current ? `${current.code} · ${current.name}` : 'Original image'}</b>
+                <span>{current ? `${current.series} · ${current.finish}` : 'No sheet applied'}</span>
               </div>
             </div>
             <div className="studio__cta">
-              {room.surfaces.length > 1 && <button className="btn btn--glass btn--sm" onClick={applyAll}><span>Use on all parts</span></button>}
+              {room.surfaces.length > 1 && <button className="btn btn--glass btn--sm" onClick={applyAll} disabled={!current}><span>Use on all parts</span></button>}
               <a className="btn btn--wa btn--sm" href={waLink(message())} target="_blank" rel="noopener"><WhatsApp /><span>Get a quote for this</span></a>
             </div>
           </div>
@@ -287,7 +296,7 @@ export default function Studio() {
           )}
           <div className="studio__swatches" data-lenis-prevent>
             {results.slice(0, shown).map(s => (
-              <button key={s.code} className={`mat${s.code === current.code ? ' is-active' : ''}`} onClick={() => pick(s.code)} title={`${s.code} — ${s.name}`} aria-pressed={s.code === current.code}>
+              <button key={s.code} className={`mat${s.code === current?.code ? ' is-active' : ''}`} onClick={() => pick(s.code)} title={`${s.code} — ${s.name}`} aria-pressed={s.code === current?.code}>
                 <img src={`/sheets/${s.img}.webp`} alt={`${s.code} ${s.name}`} loading="lazy" decoding="async" width="420" height="420" />
                 <span>{s.code}</span>
               </button>
