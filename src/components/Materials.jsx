@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { MATERIALS, photo } from '../data.js';
+import { Arrow } from './Icons.jsx';
 
 /* Expanding panels — hover (or tap) a wood to open it */
 export default function Materials() {
@@ -37,6 +38,17 @@ export default function Materials() {
           );
         })}
       </div>
+
+      <a href="#/sheets" className="sheets-teaser" data-reveal data-cursor="Browse">
+        <span className="sheets-teaser__swatches" aria-hidden="true">
+          {['3008', '3010', '2033', '3007', '2032'].map(c => <img key={c} src={`/sheets/${c}.webp`} alt="" loading="lazy" />)}
+        </span>
+        <span className="sheets-teaser__text">
+          <b>Prefer sheets? Browse 400+ chipboard, MDF &amp; UV designs</b>
+          <span>Wood grains, marbles, solids and high-gloss — shortlist and send us the codes.</span>
+        </span>
+        <span className="sheets-teaser__go" aria-hidden="true"><Arrow /></span>
+      </a>
     </section>
   );
 }

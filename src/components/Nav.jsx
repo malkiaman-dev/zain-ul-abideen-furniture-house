@@ -8,10 +8,12 @@ const LINKS = [
   { href: '#offices', label: 'Offices' },
   { href: '#schools', label: 'Schools' },
   { href: '#work', label: 'Designs' },
+  { href: '#/sheets', label: 'Sheets', badge: 'New' },
   { href: '#contact', label: 'Contact' }
 ];
+const isRoute = href => href.startsWith('#/');
 
-export default function Nav({ ready }) {
+export default function Nav({ ready, page }) {
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
@@ -29,13 +31,14 @@ export default function Nav({ ready }) {
     const off = lenis ? lenis.on('scroll', ({ scroll }) => onScroll(scroll)) : null;
     if (!lenis) window.addEventListener('scroll', handler, { passive: true });
 
-    const sections = LINKS.map(l => document.querySelector(l.href)).filter(Boolean);
+    setActive(page === 'home' ? '' : `#/${page}`);
+    const sections = page === 'home' ? LINKS.filter(l => !isRoute(l.href)).map(l => document.querySelector(l.href)).filter(Boolean) : [];
     const io = new IntersectionObserver(entries => {
       entries.forEach(en => en.isIntersecting && setActive('#' + en.target.id));
     }, { rootMargin: '-45% 0px -50% 0px' });
     sections.forEach(s => io.observe(s));
     return () => { off?.(); window.removeEventListener('scroll', handler); io.disconnect(); };
-  }, []);
+  }, [page]);
 
   const wasOpen = useRef(false);
   useEffect(() => {
@@ -56,7 +59,9 @@ export default function Nav({ ready }) {
         </a>
         <nav className="nav__links" aria-label="Primary">
           {LINKS.map(l => (
-            <a key={l.href} href={l.href} className={active === l.href ? 'is-active' : ''}>{l.label}</a>
+            <a key={l.href} href={l.href} className={active === l.href ? 'is-active' : ''} aria-current={active === l.href && isRoute(l.href) ? 'page' : undefined}>
+              {l.label}{l.badge && <sup className="nav__badge">{l.badge}</sup>}
+            </a>
           ))}
         </nav>
         <a href={`tel:${CONFIG.phoneTel}`} className="nav__phone">{CONFIG.phoneDisplay}</a>

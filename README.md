@@ -26,6 +26,11 @@ Upload the `dist/` folder to any static host — Netlify, Vercel, Cloudflare Pag
 | Customer reviews (the section is hidden until you add some) | `src/data.js` → `REVIEWS` |
 | Colours and fonts | top of `src/styles.css` |
 | Photos | `public/images/` (each photo has `name.webp` + `name-sm.webp`) |
+| Sheet catalogue (`#/sheets` page) | list in `src/sheets.json`, swatches in `public/sheets/` |
+
+### Sheet catalogue
+The 408 sheet designs on the Sheets page are from ZRK Group (zrkgroup.com), taken from their public product pages in October 2026.
+To add or remove a design, edit `src/sheets.json` (`code`, `name`, `series`, `finish`, `img`) and put a square `<img>.webp` in `public/sheets/`.
 
 ### Replacing photos with your own work
 Save your photo as `public/images/<name>.webp`, plus a half-width copy named `<name>-sm.webp`. Keep the same name to replace an existing photo, or use a new name and add it to `GALLERY` in `src/data.js`.

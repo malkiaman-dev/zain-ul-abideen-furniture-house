@@ -17,6 +17,7 @@ export default function Footer() {
           <div>
             <h4>Services</h4>
             {SERVICES.slice(0, 5).map(s => <a key={s.title} href="#services">{s.title}</a>)}
+            <a href="#/sheets">Sheet Catalogue</a>
           </div>
           <div>
             <h4>Contact</h4>

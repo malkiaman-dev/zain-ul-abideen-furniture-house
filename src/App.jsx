@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import { gsap, ScrollTrigger, startSmoothScroll, scrollToHash, reducedMotion, finePointer } from './lib/motion.js';
+import { useEffect, useRef, useState } from 'react';
+import { gsap, ScrollTrigger, startSmoothScroll, scrollToHash, getLenis, reducedMotion, finePointer } from './lib/motion.js';
+import SheetsPage from './components/SheetsPage.jsx';
 import Loader from './components/Loader.jsx';
 import Cursor from './components/Cursor.jsx';
 import Nav from './components/Nav.jsx';
@@ -17,21 +18,52 @@ import Contact from './components/Contact.jsx';
 import Footer from './components/Footer.jsx';
 import WhatsAppFloat from './components/WhatsAppFloat.jsx';
 
+const routeFromHash = () => (window.location.hash.startsWith('#/sheets') ? 'sheets' : 'home');
+
 export default function App() {
   const [ready, setReady] = useState(false);
+  const [page, setPage] = useState(routeFromHash);
+  const pageRef = useRef(page);
+  const pendingHash = useRef(null);
+  pageRef.current = page;
 
-  // smooth scrolling + in-page anchor links
+  // smooth scrolling, "#/page" routes and "#section" anchors
   useEffect(() => {
     startSmoothScroll();
+    const onRoute = () => setPage(routeFromHash());
     const onClick = e => {
       const a = e.target.closest('a[href^="#"]');
       if (!a || a.getAttribute('href').length < 2) return;
+      const href = a.getAttribute('href');
+      if (href.startsWith('#/')) return; // let the hash change drive the route
       e.preventDefault();
-      scrollToHash(a.getAttribute('href'));
+      if (pageRef.current !== 'home') {
+        pendingHash.current = href;
+        history.pushState(null, '', window.location.pathname);
+        setPage('home');
+      } else scrollToHash(href);
     };
+    window.addEventListener('hashchange', onRoute);
+    window.addEventListener('popstate', onRoute);
     document.addEventListener('click', onClick);
-    return () => document.removeEventListener('click', onClick);
+    return () => {
+      window.removeEventListener('hashchange', onRoute);
+      window.removeEventListener('popstate', onRoute);
+      document.removeEventListener('click', onClick);
+    };
   }, []);
+
+  // on page switch: jump to top (or to the section that was clicked)
+  useEffect(() => {
+    const lenis = getLenis();
+    if (lenis) lenis.scrollTo(0, { immediate: true, force: true });
+    else window.scrollTo(0, 0);
+    const t = setTimeout(() => {
+      ScrollTrigger.refresh();
+      if (pendingHash.current) { scrollToHash(pendingHash.current); pendingHash.current = null; }
+    }, 80);
+    return () => clearTimeout(t);
+  }, [page]);
 
   // site-wide scroll reveals, image parallax and magnetic buttons
   useEffect(() => {
@@ -78,25 +110,31 @@ export default function App() {
     window.addEventListener('load', refresh);
     setTimeout(refresh, 400);
     return () => { ctx.revert(); cleanups.forEach(f => f()); window.removeEventListener('load', refresh); };
-  }, [ready]);
+  }, [ready, page]);
 
   return (
     <>
       <Loader onDone={() => setReady(true)} />
       <Cursor />
-      <Nav ready={ready} />
+      <Nav ready={ready} page={page} />
       <main id="top">
-        <Hero ready={ready} />
-        <Services />
-        <Showcase data={OFFICES} />
-        <Showcase data={SCHOOLS} />
-        <Craft />
-        <Gallery />
-        <Materials />
-        <Process />
-        <Reviews />
-        <CtaBand />
-        <Contact />
+        {page === 'sheets' ? (
+          <SheetsPage />
+        ) : (
+          <>
+            <Hero ready={ready} />
+            <Services />
+            <Showcase data={OFFICES} />
+            <Showcase data={SCHOOLS} />
+            <Craft />
+            <Gallery />
+            <Materials />
+            <Process />
+            <Reviews />
+            <CtaBand />
+            <Contact />
+          </>
+        )}
       </main>
       <Footer />
       <WhatsAppFloat />
