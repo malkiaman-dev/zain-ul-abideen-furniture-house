@@ -107,7 +107,7 @@ export const SCHOOLS = {
     { area: 'b', img: 'school-kids-table', title: 'Montessori & Kids Tables', line: 'Rounded, child-safe tables in bright colours.' },
     { area: 'c', img: 'podium-mic', contain: true, title: 'Rostrums & Podiums', line: 'For assembly halls, auditoriums and events.' },
     { area: 'd', img: 'podium-wood', contain: true, title: 'Acrylic Lecterns', line: 'Wood and frosted acrylic for a modern stage.' },
-    { area: 'e', img: 'podium-white', title: 'White Lecterns', line: 'Clean lacquer finish for halls and offices.' }
+    { area: 'e', img: 'school-activity-table', full: 1536, title: 'White Lecterns', line: 'Clean lacquer finish for halls and offices.' }
   ],
   cta: {
     title: 'Furnishing a whole school?',
