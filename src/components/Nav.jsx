@@ -8,7 +8,8 @@ const LINKS = [
   { href: '#offices', label: 'Offices' },
   { href: '#schools', label: 'Schools' },
   { href: '#work', label: 'Designs' },
-  { href: '#/sheets', label: 'Sheets', badge: 'New' },
+  { href: '#/sheets', label: 'Sheets' },
+  { href: '#/studio', label: 'Design Studio', badge: 'New' },
   { href: '#contact', label: 'Contact' }
 ];
 const isRoute = href => href.startsWith('#/');

@@ -222,6 +222,9 @@ export default function SheetsPage() {
                   <WhatsApp /><span>Ask about this</span>
                 </a>
               </div>
+              {open.series !== 'Door Skin' && (
+                <a href={`#/studio?sheet=${encodeURIComponent(open.code)}`} className="sheetbox__link sheetbox__link--studio">See it on a wardrobe in Design Studio <Arrow /></a>
+              )}
               <a href="#contact" className="sheetbox__link">Need a full quote for furniture in this sheet? <Arrow /></a>
             </div>
           </div>

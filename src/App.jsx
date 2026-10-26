@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap, ScrollTrigger, startSmoothScroll, scrollToHash, getLenis, reducedMotion, finePointer } from './lib/motion.js';
 import SheetsPage from './components/SheetsPage.jsx';
+import Studio from './components/Studio.jsx';
 import Loader from './components/Loader.jsx';
 import Cursor from './components/Cursor.jsx';
 import Nav from './components/Nav.jsx';
@@ -18,7 +19,10 @@ import Contact from './components/Contact.jsx';
 import Footer from './components/Footer.jsx';
 import WhatsAppFloat from './components/WhatsAppFloat.jsx';
 
-const routeFromHash = () => (window.location.hash.startsWith('#/sheets') ? 'sheets' : 'home');
+const routeFromHash = () => {
+  const m = window.location.hash.match(/^#\/(sheets|studio)/);
+  return m ? m[1] : 'home';
+};
 
 export default function App() {
   const [ready, setReady] = useState(false);
@@ -120,6 +124,8 @@ export default function App() {
       <main id="top">
         {page === 'sheets' ? (
           <SheetsPage />
+        ) : page === 'studio' ? (
+          <Studio />
         ) : (
           <>
             <Hero ready={ready} />

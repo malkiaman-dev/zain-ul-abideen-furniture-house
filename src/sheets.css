@@ -223,3 +223,5 @@
   .sheets-teaser { flex-wrap: wrap; }
   .sheets-teaser__go { display: none; }
 }
+.sheetbox__link--studio { margin-top: auto; }
+.sheetbox__link--studio + .sheetbox__link { margin-top: 0; padding-top: 10px; color: var(--muted); }

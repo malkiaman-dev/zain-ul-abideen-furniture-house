@@ -28,6 +28,10 @@ Upload the `dist/` folder to any static host — Netlify, Vercel, Cloudflare Pag
 | Photos | `public/images/` (each photo has `name.webp` + `name-sm.webp`) |
 | Sheet catalogue (`#/sheets` page) | list in `src/sheets.json`, swatches in `public/sheets/` |
 
+### Design Studio (`#/studio` page)
+Customers pick a room, a part (e.g. shutters, side panel) and a sheet; the sheet is drawn onto the photo in perspective while keeping the photo's own light and shadow (`src/lib/roomRender.js`).
+Rooms are defined in `src/studioRooms.js`: each part is four corner points given as fractions of the photo (top-left, top-right, bottom-right, bottom-left), with optional `clip` outlines and `holes` for mirrors or objects in front. To add a room, put the photo in `public/images/` and mark its surfaces the same way.
+
 ### Sheet catalogue
 The 408 sheet designs on the Sheets page are from ZRK Group (zrkgroup.com), taken from their public product pages in October 2026.
 To add or remove a design, edit `src/sheets.json` (`code`, `name`, `series`, `finish`, `img`) and put a square `<img>.webp` in `public/sheets/`.

@@ -1,0 +1,103 @@
+/* ==========================================================================
+   Virtual Design Studio
+   ========================================================================== */
+.studio { padding: 130px var(--gutter) 120px; min-height: 100vh; }
+.studio__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px 60px; margin-bottom: 34px; }
+.studio__title { font-size: clamp(40px, 5.2vw, 80px); }
+.studio__head .lead { max-width: 460px; margin: 0; }
+
+.studio__grid { display: grid; grid-template-columns: 230px minmax(0, 1fr) 330px; gap: 16px; align-items: start; }
+.studio__panel { min-width: 0; border: 1px solid var(--line); border-radius: 22px; background: var(--bg-2); }
+.studio__label { margin: 0 0 14px; font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--dim); }
+.studio__label b { color: var(--gold); font-weight: 700; }
+
+/* rooms */
+.studio__rooms { padding: 16px; position: sticky; top: 90px; }
+.studio__room-list { display: grid; gap: 10px; }
+.room { position: relative; display: block; width: 100%; aspect-ratio: 16 / 10; border-radius: 14px; overflow: hidden; text-align: left; outline: 2px solid transparent; outline-offset: 2px; transition: outline-color .3s; }
+.room img { width: 100%; height: 100%; object-fit: cover; transition: transform .9s var(--ease), filter .4s; filter: brightness(.7); }
+.room:hover img { transform: scale(1.06); filter: brightness(.85); }
+.room.is-active { outline-color: var(--gold); }
+.room.is-active img { filter: brightness(.95); }
+.room span { position: absolute; left: 12px; right: 12px; bottom: 10px; display: grid; font-family: var(--f-display); font-size: 17px; line-height: 1.1; text-shadow: 0 2px 10px rgba(0, 0, 0, .8); }
+.room i { font-style: normal; font-size: 11px; color: var(--gold-hi); letter-spacing: .1em; }
+
+/* preview */
+.studio__preview { padding: 14px; }
+.studio__bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; }
+.studio__parts { display: flex; gap: 6px; flex-wrap: wrap; }
+.studio__parts button { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px 6px 6px; border-radius: 999px; border: 1px solid var(--line-2); font-size: 13.5px; color: var(--muted); transition: all .3s var(--ease); }
+.studio__parts button img { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; }
+.studio__parts button:hover { color: var(--text); border-color: var(--gold); }
+.studio__parts button.is-active { background: var(--gold); border-color: var(--gold); color: #1d140a; font-weight: 600; }
+.studio__actions { display: flex; gap: 6px; }
+.studio__icon { display: inline-flex; align-items: center; gap: 7px; height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line-2); font-size: 13px; color: var(--muted); transition: all .3s; }
+.studio__icon:hover:not(:disabled), .studio__icon.is-on { color: #1d140a; background: var(--gold); border-color: var(--gold); }
+.studio__icon:disabled { opacity: .5; }
+.studio__icon .ico { width: 16px; height: 16px; }
+
+.studio__stage { position: relative; overflow: hidden; border-radius: 16px; background: #0a0806; min-height: 240px; touch-action: pan-y; }
+.studio__stage canvas { display: block; width: 100%; max-width: 100%; height: auto; }
+.studio__stage.is-compare { cursor: ew-resize; }
+.studio__before { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; clip-path: inset(0 calc(100% - var(--split)) 0 0); pointer-events: none; }
+.studio__divider { position: absolute; top: 0; bottom: 0; left: var(--split); width: 2px; margin-left: -1px; background: #fff; box-shadow: 0 0 20px rgba(0, 0, 0, .5); pointer-events: none; }
+.studio__divider span { position: absolute; top: 50%; left: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; display: grid; place-items: center; background: #fff; color: #1d140a; box-shadow: 0 6px 20px rgba(0, 0, 0, .4); }
+.studio__divider .ico { width: 20px; height: 20px; }
+.studio__tag { position: absolute; top: 14px; padding: 5px 12px; border-radius: 999px; background: rgba(13, 10, 8, .65); backdrop-filter: blur(8px); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; pointer-events: none; }
+.studio__tag--l { left: 14px; } .studio__tag--r { right: 14px; color: var(--gold-hi); }
+.studio__range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
+.studio__busy { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(10, 8, 6, .35); opacity: 0; pointer-events: none; transition: opacity .3s; }
+.studio__busy.is-on { opacity: 1; }
+.studio__busy span { width: 38px; height: 38px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, .2); border-top-color: var(--gold-hi); animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.studio__summary { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px; margin-top: 14px; }
+.studio__current { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.studio__current img { width: 56px; height: 56px; border-radius: 12px; object-fit: cover; border: 1px solid var(--line-2); flex: none; }
+.studio__current div { display: grid; min-width: 0; }
+.studio__current small { font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); }
+.studio__current b { font-family: var(--f-display); font-weight: 450; font-size: 20px; line-height: 1.2; }
+.studio__current span { font-size: 13px; color: var(--muted); }
+.studio__cta { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* materials */
+.studio__mats { padding: 16px; position: sticky; top: 90px; max-height: calc(100vh - 110px); display: flex; flex-direction: column; }
+.studio__search { height: 44px; margin-bottom: 10px; }
+.studio__search input { font-size: 15px; }
+.studio__chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; margin-bottom: 8px; flex: none; }
+.studio__chips::-webkit-scrollbar { display: none; }
+.studio__chips button { flex: none; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); font-size: 12.5px; color: var(--muted); white-space: nowrap; transition: all .3s; }
+.studio__chips button:hover { color: var(--text); border-color: var(--gold); }
+.studio__chips button.is-active { background: var(--gold); border-color: var(--gold); color: #1d140a; font-weight: 600; }
+.studio__chips--sm button { padding: 4px 10px; font-size: 12px; border-color: var(--line); }
+.studio__chips--sm button.is-active { background: rgba(214, 170, 88, .16); color: var(--gold-hi); border-color: var(--gold); }
+.studio__swatches { flex: 1; min-height: 200px; overflow-y: auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; align-content: start; padding: 4px 2px 4px 0; margin-top: 4px; overscroll-behavior: contain; }
+.mat { position: relative; aspect-ratio: 1; border-radius: 10px; overflow: hidden; outline: 2px solid transparent; outline-offset: 2px; transition: outline-color .25s, transform .4s var(--ease); }
+.mat:hover { transform: scale(1.04); }
+.mat.is-active { outline-color: var(--gold); }
+.mat img { width: 100%; height: 100%; object-fit: cover; }
+.mat span { position: absolute; left: 4px; bottom: 4px; padding: 1px 6px; border-radius: 6px; background: rgba(13, 10, 8, .7); font-size: 10.5px; font-weight: 600; }
+.studio__more { margin-top: 10px; padding: 10px; border-radius: 12px; border: 1px dashed var(--line-2); color: var(--gold); font-size: 13px; flex: none; }
+.studio__empty { color: var(--muted); font-size: 14px; }
+.studio__note { margin: 22px 0 0; color: var(--dim); font-size: 12.5px; }
+
+@media (max-width: 1180px) {
+  .studio__grid { grid-template-columns: minmax(0, 1fr) 300px; }
+  .studio__rooms { grid-column: 1 / -1; position: static; }
+  .studio__room-list { grid-template-columns: repeat(4, 1fr); }
+}
+@media (max-width: 860px) {
+  .studio { padding-top: 110px; }
+  .studio__grid { grid-template-columns: 1fr; }
+  .studio__rooms { padding: 12px; }
+  .studio__room-list { display: flex; overflow-x: auto; scrollbar-width: none; }
+  .studio__room-list .room { flex: 0 0 150px; }
+  .studio__preview { padding: 10px; }
+  .studio__mats { position: static; max-height: none; }
+  .studio__swatches { grid-template-columns: repeat(4, 1fr); max-height: 420px; }
+  .studio__icon span { display: none; }
+}
+@media (max-width: 480px) {
+  .studio__swatches { grid-template-columns: repeat(3, 1fr); }
+  .studio__cta, .studio__cta .btn { width: 100%; }
+}
