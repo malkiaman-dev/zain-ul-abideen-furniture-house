@@ -6,12 +6,12 @@ import IMAGE_SIZES from './imageSizes.json';
 export const CONFIG = {
   name: 'Zain Ul Abideen Furniture House',
   tagline: 'Crafting Comfort, Building Trust',
-  phoneDisplay: '+92 300 0000000',
-  phoneTel: '+923000000000',
-  whatsapp: '923000000000', // country code + number, no "+" or spaces
+  phoneDisplay: '0315 9045185',
+  phoneTel: '+923159045185',
+  whatsapp: '923159045185', // country code + number, no "+" or spaces
   email: 'info@zainulabideenfurniture.com',
-  address: 'Main Bazaar, Your City, Pakistan',
-  hours: 'Mon – Sat · 9:00 am – 8:00 pm',
+  address: 'KPK, Pakistan',
+  hours: 'Mon - Fri · 9:00 am - 8:00 pm',
   instagram: { handle: '@zainulabideenfurniture', href: '#' },
   socials: [
     { label: 'Facebook', href: '#' },
